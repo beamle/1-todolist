@@ -6,6 +6,7 @@ import CheckBox from "../CheckBox/CheckBox";
 
 type PropsType = {
     tasks: TaskType[]
+    title: string
     deleteTask: (id: string) => void
     addTask: (title: string) => void
     changeIsDone: (id: string, isDone: boolean) => void
@@ -18,7 +19,7 @@ export type TaskType = {
 }
 
 const Todolist = (props: PropsType) => {
-    const {tasks, addTask} = props
+    const {tasks, addTask, title} = props
     const [error, setError] = useState<string | null>('');
     const [inputText, setInputText] = useState('');
     const [filter, setFilter] = useState('all');
@@ -78,7 +79,7 @@ const Todolist = (props: PropsType) => {
 
     return (
         <div>
-            <div>{tasks[0].title}</div>
+            <div>{title}</div>
             <div>
                 <input className={error ? s.error : ''} value={inputText} onChange={inputOnChangeHandle} onKeyDown={e => e.key === 'Enter' && addTaskBtnHandle()}/>
                 <button onClick={addTaskBtnHandle}>+</button>
