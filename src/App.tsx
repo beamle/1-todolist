@@ -45,10 +45,20 @@ function App() {
 
     return (
         <div className="App">
-            {todoLists.map(tl => <Todolist tasks={tasks}
-                                           deleteTask={deleteTask}
-                                           addTask={addTask}
-                                           changeIsDone={changeIsDone}/>)}
+            {todoLists.map(tl => {
+                let filteredTasks = tasks[tl.id]
+                if (filter === 'all') setTasks(filteredTasks)
+                if (filter === 'completed'){
+                    tasks[tl.id] = filteredTasks.filter(task => task.isDone)
+                    setTasks(tasks)
+                }
+                //TODO: missing filter === 'active'
+
+                return <Todolist tasks={tasks}
+                                 deleteTask={deleteTask}
+                                 addTask={addTask}
+                                 changeIsDone={changeIsDone}/>
+            })}
         </div>
     );
 }
