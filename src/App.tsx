@@ -12,10 +12,10 @@ type TodoListType = {
 
 function App() {
 
-    let todoLists: TodoListType[] = [
-        { id: v1(), title: "Todo", filter: "active"},
-        { id: v1(), title: "Finished", filter: "completed"}
-    ]
+    let [todoLists, setTodoLists] = useState<TodoListType[]>([
+        {id: v1(), title: "Todo", filter: "active"},
+        {id: v1(), title: "Finished", filter: "completed"}
+    ])
 
     let [tasks, setTasks] = useState<TaskType[]>([
         {id: v1(), title: "HTML&CSS", isDone: true},
@@ -35,14 +35,32 @@ function App() {
         setTasks([{id: v1(), title: title, isDone: false}, ...tasks])
     }
 
+    const allFiltersHandler = (filter: FilterValuesType, todoListId: string) => {
+        let todoListToChange = todoLists.find(td => td.id === todoListId)
+        if (todoListToChange) todoListToChange.filter = filter
+        setTodoLists([...todoLists])
+    }
     return (
         <div className="App">
             {todoLists.map(tl => {
-                return <Todolist tasks={tasks}
+                let tasksForTodolist = tasks
+
+                if (tl.filter === 'active') {
+                    tasksForTodolist = tasks.filter(task => task.isDone)
+                }
+                if (tl.filter === 'completed') {
+                    tasksForTodolist = tasks.filter(task => !task.isDone)
+                }
+
+                return <Todolist key={tl.id}
+                                 id={tl.id}
+                                 tasks={tasksForTodolist}
                                  title={tl.title}
-                          deleteTask={deleteTask}
-                          addTask={addTask}
-                          changeIsDone={changeIsDone}
+                                 deleteTask={deleteTask}
+                                 addTask={addTask}
+                                 changeIsDone={changeIsDone}
+                                 allFiltersHandler={allFiltersHandler}
+                                 filter={tl.filter}
                 />
             })}
         </div>
