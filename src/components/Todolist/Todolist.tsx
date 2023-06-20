@@ -21,23 +21,9 @@ const Todolist = (props: PropsType) => {
     const {tasks, addTask} = props
     const [error, setError] = useState<string | null>('');
     const [inputText, setInputText] = useState('');
-    const [filter, setFilter] = useState('all');
 
     function allFiltersHandler(filter: FilterValuesType) {
         return setFilter(filter)
-    }
-
-    function filteredTasks(): TaskType[] {
-        if (filter === 'all') {
-            return tasks
-        }
-        if (filter === 'active') {
-            return tasks.filter(task => task.isDone)
-        }
-        if (filter === 'completed') {
-            return tasks.filter(task => !task.isDone)
-        }
-        return tasks
     }
 
     function addTaskBtnHandle() {

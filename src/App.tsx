@@ -4,14 +4,32 @@ import Todolist, {TaskType} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
+type TodoListType = {
+    id: string
+    title: string
+    filter: FilterValuesType
+}
 
 function App() {
+    let todoListId1 = v1()
+    let todoListId2 = v1()
 
-    let [tasks, setTasks] = useState<TaskType[]>([
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false}
-    ]);
+    let [todoLists, setTodoLists] = useState<TodoListType[]>([
+        {id: todoListId1, title: "Todo", filter: "active"},
+        {id: todoListId2, title: "Completed", filter: "completed"}
+    ])
+    let [tasks, setTasks] = useState({
+        [todoListId1]: [
+            {id: v1(), title: "HTML&CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "ReactJS", isDone: false}],
+        [todoListId2]: [
+            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "ReactJS", isDone: false}]
+    });
+
+    const [filter, setFilter] = useState('all');
+
 
     function changeIsDone(id: string, newIsDone: boolean) {
         setTasks(tasks.map(task => task.id === id ? {...task, isDone: newIsDone} : task)) // map tut sozdaet novyj massiv. po4emu tipizacija ne srabatyvaet?
@@ -27,10 +45,10 @@ function App() {
 
     return (
         <div className="App">
-            <Todolist tasks={tasks}
-                      deleteTask={deleteTask}
-                      addTask={addTask}
-                      changeIsDone={changeIsDone}/>
+            {todoLists.map(tl => <Todolist tasks={tasks}
+                                           deleteTask={deleteTask}
+                                           addTask={addTask}
+                                           changeIsDone={changeIsDone}/>)}
         </div>
     );
 }
