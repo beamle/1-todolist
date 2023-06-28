@@ -2,18 +2,17 @@ import React, {ChangeEvent, FC, useState} from 'react';
 import s from "../Todolist/Todolist.module.css";
 
 type AddItemFormPropsType = {
-    addItem: (title: string, todoListId: string) => void
-    id: string
+    addItem: (title: string) => void
 
 }
 
-const AddItemForm: FC<AddItemFormPropsType>= ({addItem, id}) => {
+const AddItemForm: FC<AddItemFormPropsType>= ({addItem}) => {
     const [error, setError] = useState<string | null>('');
     const [inputText, setInputText] = useState('');
 
     function addTaskBtnHandle() {
         if (inputText.trim()) {
-            addItem(inputText.trim(), id)
+            addItem(inputText.trim())
             setInputText('')
         } else {
             setError('Title is required')
