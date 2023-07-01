@@ -1,10 +1,12 @@
 import React, {ChangeEvent, FC, useState} from "react";
+import {TextField} from "@material-ui/core";
+import {Typography} from "@mui/material";
 
-type EditableSpan = {
+type EditableSpanProps = {
     title: string
     changeTitleHandler: (title: string) => void
 }
-export const EditableSpan: FC<EditableSpan> = (props) => {
+export const EditableSpan: FC<EditableSpanProps> = (props) => {
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -19,8 +21,11 @@ export const EditableSpan: FC<EditableSpan> = (props) => {
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value);
 
     return editMode
-        ? <input value={title} onBlur={activateViewMode} onChange={onChangeTitleHandler} autoFocus/>
-        : <span onDoubleClick={activateEditMode}
-                >
-            {props.title}</span>
+        ? <TextField margin={"none"} value={title} onBlur={activateViewMode} onChange={onChangeTitleHandler} autoFocus
+                     InputProps={{disableUnderline: true}}
+        />
+        : <Typography onDoubleClick={activateEditMode}
+                      variant="body2" display="inline"
+        >
+            {props.title}</Typography>
 }
