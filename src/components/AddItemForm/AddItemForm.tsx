@@ -1,71 +1,69 @@
 import React, {ChangeEvent, FC, useState} from 'react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlus, faDeleteLeft, faTrash} from "@fortawesome/free-solid-svg-icons";
 import s from "./AddItemForm.module.css"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-type AddItemFormProps = {
-    maxItemTitleLength: number
+type AddItemFormPropsType = {
+    maxTaskTitleLength: number,
     addItem: (title: string) => void
 }
 
-const AddItemForm: FC<AddItemFormProps> = ({maxItemTitleLength, addItem}) => {
-    const [title, setTitle] = useState("")
+
+export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
+    const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
 
-    const isItemTitleLengthTooLong = title.length > maxItemTitleLength
+    const isItemTitleLengthTooLong = title.length > props.maxTaskTitleLength
     const isAddItemBtnDisabled = !title || isItemTitleLengthTooLong
-
-    const changeItemTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        if(error) {
+    const changeTaskTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        if (error) {
             setError(false)
         }
-        if(!isItemTitleLengthTooLong){
+        if (!isItemTitleLengthTooLong) {
             setTitle(e.currentTarget.value)
         }
     }
-
-    const addItemToTodolist = () => {
+    const addItem = () => {
         const trimmedTitle = title.trim()
-        if(trimmedTitle){
-            addItem(trimmedTitle)
+        if (trimmedTitle) {
+            props.addItem(trimmedTitle)
         } else {
             setError(true)
         }
         setTitle("")
     }
 
+
     return (
-        <div className={s.addForm}>
+        <div className="add-form">
             <input
                 value={title}
-                onChange={changeItemTitle}
+                onChange={changeTaskTitle}
                 className={error ? "user-error" : undefined}
-                onKeyDown={(e)=>{
-                    if(e.key === "Enter"){
-                        addItemToTodolist()
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        addItem()
                     }
                 }}
             />
             <button
                 disabled={isAddItemBtnDisabled}
-                onClick={addItemToTodolist}>
+                onClick={addItem}>
                 <FontAwesomeIcon icon={faCirclePlus} />
             </button>
 
             <button
                 disabled={!title}
-                onClick={()=>setTitle(title.slice(0, -1))}>
+                onClick={() => setTitle(title.slice(0, -1))}>
                 <FontAwesomeIcon icon={faDeleteLeft} />
             </button>
             <button
                 disabled={!title}
-                onClick={()=>setTitle("")}>
+                onClick={() => setTitle("")}>
                 <FontAwesomeIcon icon={faTrash} />
             </button>
-            {isItemTitleLengthTooLong && <div>You title is too long</div>}
-            {error && <div style={{"color": "red", "fontWeight": "bold"}}>Please, enter correct title</div>}
+            {isItemTitleLengthTooLong && <div>You task title is too long</div>}
+            {error && <div style={{ "color": "red", "fontWeight": "bold" }}>Please, enter correct title</div>}
         </div>
-    );
-};
-
-export default AddItemForm;
+    )
+}

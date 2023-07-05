@@ -1,22 +1,25 @@
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import {FilterValuesType} from "../../App";
-import AddItemForm from "../AddItemForm/AddItemForm";
 import EditableSpan from "../EditableSpan/EditableSpan";
+import {AddItemForm} from "../AddItemForm/AddItemForm";
+
 
 type TodoListPropsType = {
-    id: string
+    todoListId: string
     title: string
     filter: FilterValuesType
-    tasks: TaskType[]
+    tasks: Array<TaskType>
     removeTask: (taskId: string, todoListId: string) => void
-    removeTodoList: (todoListId: string) => void
     addTask: (title: string, todoListId: string) => void
+    removeTodoList: (todoListId: string) => void
     changeFilter: (nextFilterValue: FilterValuesType, todoListId: string) => void
     changeTaskStatus: (taskId: string, newIsDoneValue: boolean, todoListId: string) => void
+    changeTaskTitle: (taskId: string, newTitle: string, todoListId: string) => void
+    changeTodoListTitle: (newTodoListTitle: string, todoListId: string) => void
 }
 
 export type TaskType = {
@@ -24,17 +27,21 @@ export type TaskType = {
     title: string
     isDone: boolean
 }
+
+
+
+
 const TodoList: FC<TodoListPropsType> = (props) => {
 
-    const maxTaskTitleLength = 15;
     const tasksList = (props.tasks.length === 0)
         ? <p>TodoList is empty</p>
-        :  <ul className={"tasks-list"}>
+        : <ul className={"tasks-list"}>
             {
                 props.tasks.map((task) => {
-                    const removeTask = () => props.removeTask(task.id, props.id)
+                    const changeNewTaskTitle = (title: string) => props.changeTaskTitle(task.id, title, props.todoListId)
+                    const removeTask = () => props.removeTask(task.id, props.todoListId)
                     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
-                        props.changeTaskStatus(task.id, e.currentTarget.checked, props.id)
+                        props.changeTaskStatus(task.id, e.currentTarget.checked, props.todoListId)
                     return (
                         <li key={task.id} className={"tasks-list-item"}>
                             <div>
@@ -43,7 +50,9 @@ const TodoList: FC<TodoListPropsType> = (props) => {
                                     checked={task.isDone}
                                     onChange={changeTaskStatus}
                                 />
-                                <EditableSpan title={task.title} className={task.isDone ? "task-done" : "task"} changeTitle={() => {}}/>
+                                <span className={task.isDone ? "task-done" : "task"}>
+                                    <EditableSpan title={task.title} changeTitle={changeNewTaskTitle} className={'default'}/>
+                                </span>
                             </div>
                             <button onClick={removeTask}>x</button>
                         </li>
@@ -52,29 +61,32 @@ const TodoList: FC<TodoListPropsType> = (props) => {
             }
         </ul>
 
-    const addTask = (title: string) => {
-        props.addTask(title, props.id)
-    }
+    const addTask = (title: string) => props.addTask(title, props.todoListId)
 
-
+    const maxTaskTitleLength = 15
 
     return (
         <div className="todoList">
-            <h3 className={"todolist-header"}><button onClick={() => props.removeTodoList(props.id)}>x</button>{props.title}</h3>
-            <AddItemForm maxItemTitleLength={maxTaskTitleLength} addItem={addTask}/>
+            <h3 className={"todolist-header"}>
+                <EditableSpan title={props.title} changeTitle={(title: string) => props.changeTodoListTitle(title, props.todoListId)}  className={'default'}/>
+                <button onClick={() => props.removeTodoList(props.todoListId)}>x</button>
+            </h3>
+
+            <AddItemForm maxTaskTitleLength={maxTaskTitleLength} addItem={addTask} />
+
             {tasksList}
             <div className={"buttons-block"}>
                 <button
-                    className={props.filter === "all" ? "btn-filter-active" : ''}
-                    onClick={() => props.changeFilter("all", props.id)}>All
+                    className={props.filter === "all" ? "btn-filter-active" : undefined}
+                    onClick={() => props.changeFilter("all", props.todoListId)}>All
                 </button>
                 <button
-                    className={props.filter === "active" ? "btn-filter-active" : ''}
-                    onClick={() => props.changeFilter("active", props.id)}>Active
+                    className={props.filter === "active" ? "btn-filter-active" : undefined}
+                    onClick={() => props.changeFilter("active", props.todoListId)}>Active
                 </button>
                 <button
-                    className={props.filter === "completed" ? "btn-filter-active" : ''}
-                    onClick={() => props.changeFilter("completed", props.id)}>Completed
+                    className={props.filter === "completed" ? "btn-filter-active" : undefined}
+                    onClick={() => props.changeFilter("completed", props.todoListId)}>Completed
                 </button>
             </div>
         </div>
