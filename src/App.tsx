@@ -7,13 +7,13 @@ import Container from '@material-ui/core/Container';
 import {Box, Grid, Paper} from "@mui/material";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
 }
 
-type TasksType = {
+export type TasksType = {
     [key: string]: TaskType[]
 }
 
