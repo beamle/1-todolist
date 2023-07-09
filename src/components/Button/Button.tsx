@@ -1,19 +1,23 @@
 import React from 'react';
+import Button from "@material-ui/core/Button";
 
 type PropsType = {
     name: string,
     callBack: () => void
-    className: string
+    className: "text" | "outlined" | "contained" | undefined
 }
 
-const Button = ({name, callBack, className}: PropsType) => {
+const MyButton = ({name, callBack, className}: PropsType) => {
     const onClickHandler = () => {
         callBack()
     }
 
+    const finalClassName = JSON.stringify(className)
+
     return (
-            <button className={className} onClick={onClickHandler}>{name}</button>
+        <Button variant={className} onClick={onClickHandler} color={'default'}>{name}</Button>
+        //     <IconButton className={className} onClick={onClickHandler} size={'small'} color={'default'} ><AddTaskIcon/></IconButton>
     );
 };
 
-export default Button;
+export default MyButton;
