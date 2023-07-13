@@ -38,11 +38,10 @@ function App() {
 
     // TASKS MANIPULATION
     function changeIsDone(id: string, newIsDone: boolean, todoListId: string) {
-        let tasksArr = tasks[todoListId]
-        debugger
-        tasks[todoListId] = tasksArr.map(task => task.id === id ? {...task, isDone: newIsDone} : task)
-        console.log(tasks)
-        setTasks({...tasks})
+        // let tasksArr = tasks[todoListId]
+        // tasks[todoListId] = tasksArr.map(task => task.id === id ? {...task, isDone: newIsDone} : task)
+        // setTasks({...tasks})
+        setTasks({...tasks, [todoListId]: tasks[todoListId].map(task => task.id === id ? {...task, isDone: newIsDone} : task)})
 
         //     let task = tasksArr.find(t => t.id === id)
         //     if (task) {
@@ -66,11 +65,6 @@ function App() {
         setTasks({...tasks})
     }
 
-    const allFiltersHandler = (filter: FilterValuesType, todoListId: string) => {
-        let todoListToChange = todoLists.find(td => td.id === todoListId)
-        if (todoListToChange) todoListToChange.filter = filter
-        setTodoLists([...todoLists])
-    }
     const changeTaskTitleHandler = (taskId: string, newTitle: string, todoListId: string) => {
         let newTasks = {...tasks}
         let taskToChange = newTasks[todoListId].find((task: TaskType) => task.id === taskId)
@@ -78,6 +72,7 @@ function App() {
             taskToChange.title = newTitle
             setTasks(newTasks)
         }
+        // setTasks({...tasks, [todoListId]: tasks[todoListId].map(task => task.id === taskId ? {...task, title: newTitle} : task)})
 
         // let updatedTasksList = tasks[todoListId].map(task => taskId === task.id ? {...task, title: newTitle} : task)
 
@@ -105,6 +100,13 @@ function App() {
         setTodoLists(todoLists.map(tl => tl.id === todolistId ? {...tl, title} : tl))
     }
     console.log(todoLists)
+
+    const allFiltersHandler = (filter: FilterValuesType, todoListId: string) => {
+        let todoListToChange = todoLists.find(td => td.id === todoListId)
+        if (todoListToChange) todoListToChange.filter = filter
+        setTodoLists([...todoLists])
+        // setTodoLists(todoLists.map(ts => ts.id === todoListId ? {...ts, filter} : ts))
+    }
 
     return (
         <div className="App">
