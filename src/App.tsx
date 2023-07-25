@@ -110,45 +110,45 @@ function App() {
 
     return (
         <div className="App">
-            <Container>
-                <Grid container spacing={1}>
-                    <Grid >
-                        <AddItemForm addItem={addTodolist}/>
-                    </Grid>
-                </Grid>
-                <Box sx={{flexGrow: 1}}>
-                    <Grid container spacing={1}>
-                        {todoLists.map(tl => {
-                            let tasksForTodolist = tasks[tl.id]
+            {/*<Container>*/}
+            {/*    <Grid container spacing={1}>*/}
+            {/*        <Grid >*/}
+            {/*            <AddItemForm addItem={addTodolist}/>*/}
+            {/*        </Grid>*/}
+            {/*    </Grid>*/}
+            {/*    <Box sx={{flexGrow: 1}}>*/}
+            {/*        <Grid container spacing={1}>*/}
+            {/*            {todoLists.map(tl => {*/}
+            {/*                let tasksForTodolist = tasks[tl.id]*/}
 
-                            if (tl.filter === 'active') {
-                                tasksForTodolist = tasksForTodolist.filter(task => task.isDone)
-                            }
-                            if (tl.filter === 'completed') {
-                                tasksForTodolist = tasksForTodolist.filter(task => !task.isDone)
-                            }
+            {/*                if (tl.filter === 'active') {*/}
+            {/*                    tasksForTodolist = tasksForTodolist.filter(task => task.isDone)*/}
+            {/*                }*/}
+            {/*                if (tl.filter === 'completed') {*/}
+            {/*                    tasksForTodolist = tasksForTodolist.filter(task => !task.isDone)*/}
+            {/*                }*/}
 
-                            return <Grid>
-                                <Paper>
-                                    <Todolist key={tl.id}
-                                              id={tl.id}
-                                              tasks={tasksForTodolist}
-                                              title={tl.title}
-                                              deleteTask={deleteTask}
-                                              addTask={addTask}
-                                              changeIsDone={changeIsDone}
-                                              changeTaskTitleHandler={changeTaskTitleHandler}
-                                              allFiltersHandler={allFiltersHandler}
-                                              filter={tl.filter}
-                                              deleteTodoList={deleteTodoList}
-                                              changeTodolistTitleHandler={changeTodolistTitleHandler}
-                                    />
-                                </Paper>
-                            </Grid>
-                        })}
-                    </Grid>
-                </Box>
-            </Container>
+            {/*                return <Grid>*/}
+            {/*                    <Paper>*/}
+            {/*                        <Todolist key={tl.id}*/}
+            {/*                                  id={tl.id}*/}
+            {/*                                  tasks={tasksForTodolist}*/}
+            {/*                                  title={tl.title}*/}
+            {/*                                  deleteTask={deleteTask}*/}
+            {/*                                  addTask={addTask}*/}
+            {/*                                  changeIsDone={changeIsDone}*/}
+            {/*                                  changeTaskTitleHandler={changeTaskTitleHandler}*/}
+            {/*                                  allFiltersHandler={allFiltersHandler}*/}
+            {/*                                  filter={tl.filter}*/}
+            {/*                                  deleteTodoList={deleteTodoList}*/}
+            {/*                                  changeTodolistTitleHandler={changeTodolistTitleHandler}*/}
+            {/*                        />*/}
+            {/*                    </Paper>*/}
+            {/*                </Grid>*/}
+            {/*            })}*/}
+            {/*        </Grid>*/}
+            {/*    </Box>*/}
+            {/*</Container>*/}
         </div>
     );
 }

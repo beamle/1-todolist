@@ -2,10 +2,10 @@ import {v1} from "uuid";
 import {useState} from "react";
 import {TasksType} from "../../../App";
 import {
-    AddTaskAC,
+    addTaskAC,
     AddTaskType,
-    ChangeTaskIsDoneType, ChangeTaskStatusAC, ChangeTaskTitle, ChangeTaskTitleAC,
-    DeleteTaskAC,
+    ChangeTaskIsDoneType, changeTaskStatusAC, ChangeTaskTitle, changeTaskTitleAC,
+    deleteTaskAC,
     DeleteTaskActionType,
     tasksReducer
 } from "./tasks-reducer";
@@ -28,7 +28,7 @@ const startState = {
 
 
 test("task should be deleted from tasks array", () => {
-    const action:DeleteTaskActionType = DeleteTaskAC(startState[todoListId1][0].id, todoListId1)
+    const action:DeleteTaskActionType = deleteTaskAC(startState[todoListId1][0].id, todoListId1)
 
     const endState = tasksReducer(startState, action)
 
@@ -40,7 +40,7 @@ test("task should be deleted from tasks array", () => {
 })
 
 test("tasks isDone status should be changed", () => {
-    const action: ChangeTaskIsDoneType = ChangeTaskStatusAC(todoListId1, startState[todoListId1][1].id, true)
+    const action: ChangeTaskIsDoneType = changeTaskStatusAC(todoListId1, startState[todoListId1][1].id, true)
     const endState = tasksReducer(startState, action)
 
     expect(endState[todoListId1][1].isDone).toBeTruthy()
@@ -64,7 +64,7 @@ test("add new task", () => {
     // })
 
     const title = "newTitle"
-    const action: AddTaskType = AddTaskAC(todoListId2, title)
+    const action: AddTaskType = addTaskAC(todoListId2, title)
     // const action: AddTaskType = {type: "ADD-TASK", todolistId: todoListId2, title}
     const endState = tasksReducer(startState, action)
 
@@ -77,7 +77,7 @@ test("add new task", () => {
 
 test("change task title", () => {
     const title = "changedTitle"
-    const action: ChangeTaskTitle = ChangeTaskTitleAC(todoListId1, startState[todoListId1][0].id, title)
+    const action: ChangeTaskTitle = changeTaskTitleAC(todoListId1, startState[todoListId1][0].id, title)
     const endState = tasksReducer(startState, action)
 
     expect(endState[todoListId1][0].title).toBe(title)
@@ -98,8 +98,8 @@ test('new array of tasks should be added when new todolist is added', () => {
             {id: v1(), title: "Angular", isDone: false},
             {id: v1(), title: "Java", isDone: false}
         ]};
-
-    const action: AddTodolistActionType = addTodolistAC("new todolist");
+    const todolistId = '1111'
+    const action: AddTodolistActionType = addTodolistAC("new todolist", todolistId);
 
     const endState = tasksReducer(startState, action)
 

@@ -19,7 +19,7 @@ type PropsType = {
     changeIsDone: (id: string, isDone: boolean, todoListId: string) => void
     changeTaskTitleHandler: (id: string, title: string, todoListId: string) => void
     changeTodolistTitleHandler: (todolistId: string, title: string) => void
-    allFiltersHandler: (filter: FilterValuesType, todoListId: string) => void
+    allFiltersHandler: (todoListId: string, filter: FilterValuesType) => void
     filter: FilterValuesType
     deleteTodoList: (id: string) => void
     addTodoList?: () => void
@@ -72,11 +72,11 @@ const Todolist = (props: PropsType) => {
             </div>
             <div>
                 <MyButton className={filter === 'all' ? 'contained' : 'outlined'} name={'all'}
-                          callBack={() => allFiltersHandler('all', id)}/>
+                          callBack={() => allFiltersHandler(id, 'all')}/>
                 <MyButton className={filter === 'active' ? 'contained' : 'outlined'} name={'active'}
-                          callBack={() => allFiltersHandler('active', id)}/>
+                          callBack={() => allFiltersHandler(id, 'active')}/>
                 <MyButton className={filter === 'completed' ? 'contained' : 'outlined'} name={'completed'}
-                          callBack={() => allFiltersHandler('completed', id)}/>
+                          callBack={() => allFiltersHandler(id, 'completed')}/>
             </div>
         </Box>
     );
