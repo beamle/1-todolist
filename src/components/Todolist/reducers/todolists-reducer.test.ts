@@ -38,8 +38,8 @@ test("add new todolist", () => {
     ]
 
     // const action = {type: 'ADD-TODOLIST', title: newTitle}
-    const todolistId = '1111'
-    const endState = todolistsReducer(startState, addTodolistAC(newTitle, todolistId)) // DIFFERENT WAYS TO ADD TYPIZATION
+
+    const endState = todolistsReducer(startState, addTodolistAC(newTitle)) // DIFFERENT WAYS TO ADD TYPIZATION
 
     expect(endState.length).toBe(3)
     expect(endState[2].title ).toBe(newTitle)

@@ -98,8 +98,8 @@ test('new array of tasks should be added when new todolist is added', () => {
             {id: v1(), title: "Angular", isDone: false},
             {id: v1(), title: "Java", isDone: false}
         ]};
-    const todolistId = '1111'
-    const action: AddTodolistActionType = addTodolistAC("new todolist", todolistId);
+
+    const action: AddTodolistActionType = addTodolistAC("new todolist");
 
     const endState = tasksReducer(startState, action)
 

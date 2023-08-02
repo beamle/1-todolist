@@ -73,13 +73,15 @@ function App() {
 
     // TODOLISTS MANIPULATION
     const deleteTodoList = (id: string) => {
-        dispatchToTdReducer(removeTodolistAC(id))
+        const action = removeTodolistAC(id)
+        dispatchToTdReducer(action)
+        dispatchToTasksReducer(action)
     }
 
     function addTodolist(title: string) {
-        let todolistId = v1()
-        dispatchToTdReducer(addTodolistAC(title, todolistId))
-        dispatchToTasksReducer(addTodolistAC(title, todolistId))
+        const action = addTodolistAC(title)
+        dispatchToTdReducer(action)
+        dispatchToTasksReducer(action)
     }
 
     const changeTodolistTitleHandler = (todolistId: string, title: string) => {
@@ -114,12 +116,12 @@ function App() {
                                 <Paper>
                                     <Todolist key={tl.id}
                                               id={tl.id}
-                                              tasks={tasksForTodolist}
+                                              // tasks={tasksForTodolist}
                                               title={tl.title}
-                                              deleteTask={deleteTask}
-                                              addTask={addTask}
-                                              changeIsDone={changeIsDone}
-                                              changeTaskTitleHandler={changeTaskTitleHandler}
+                                              // deleteTask={deleteTask}
+                                              // addTask={addTask}
+                                              // changeIsDone={changeIsDone}
+                                              // changeTaskTitleHandler={changeTaskTitleHandler}
                                               allFiltersHandler={allFiltersHandler}
                                               filter={tl.filter}
                                               deleteTodoList={deleteTodoList}

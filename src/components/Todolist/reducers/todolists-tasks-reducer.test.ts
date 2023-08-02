@@ -8,7 +8,7 @@ test('todolist and tasks arr should be added', () => {
     const startTasksState: TasksType = {};
     const startTodolistsState: TodoListType[] = [];
 
-    const action = addTodolistAC("new todolist", '1111') //todolistId, title, type: ADD-TODOLIST
+    const action = addTodolistAC("new todolist") //todolistId, title, type: ADD-TODOLIST
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)

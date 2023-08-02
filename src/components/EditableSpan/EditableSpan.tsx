@@ -7,6 +7,7 @@ type EditableSpanProps = {
     changeTitleHandler: (title: string) => void
 }
 export const EditableSpan: FC<EditableSpanProps> = (props) => {
+    console.log(props.title, 'editablespan')
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState('');
 

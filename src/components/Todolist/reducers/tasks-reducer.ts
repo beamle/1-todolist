@@ -1,6 +1,13 @@
 import {v1} from "uuid";
 import todolist from "../Todolist";
-import {AddTodolistActionType, removeTodolistAC, RemoveTodolistActionType} from "./todolists-reducer";
+import {
+    AddTodolistActionType,
+    removeTodolistAC,
+    RemoveTodolistActionType,
+    todoListId1,
+    todoListId2
+} from "./todolists-reducer";
+import {useReducer} from "react";
 
 type TaskType = {
     id: string,
@@ -41,7 +48,10 @@ export  type ChangeTaskTitle = {
 type ActionsType = DeleteTaskActionType | ChangeTaskIsDoneType | AddTaskType | ChangeTaskTitle |
                    AddTodolistActionType | RemoveTodolistActionType
 
-export const tasksReducer = (state: TasksType, action: ActionsType): TasksType => {
+const initialState: TasksType = {};
+
+export const tasksReducer = (state: TasksType = initialState, action: ActionsType): TasksType => {
+    console.log('in tasks')
     switch (action.type) {
         case "DELETE-TASK":
             let todolist = action.todolistId
@@ -81,7 +91,7 @@ export const tasksReducer = (state: TasksType, action: ActionsType): TasksType =
             }
             return newState
         default:
-            throw new Error('Wrong action')
+            return state
     }
 }
 
