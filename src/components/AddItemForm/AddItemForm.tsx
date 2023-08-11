@@ -10,10 +10,10 @@ type AddItemFormPropsType = {
 
 }
 
-const AddItemForm: FC<AddItemFormPropsType> = ({addItem}) => {
+export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({addItem}) => {
     const [error, setError] = useState<string | null>('');
     const [inputText, setInputText] = useState('');
-
+    console.log("add itemForm")
     function addTaskBtnHandle() {
         if (inputText.trim()) {
             addItem(inputText.trim())
@@ -41,6 +41,4 @@ const AddItemForm: FC<AddItemFormPropsType> = ({addItem}) => {
             {error && <div className={s.errorMessage}>{error}</div>}
         </Grid>
     );
-};
-
-export default AddItemForm;
+});

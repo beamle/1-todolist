@@ -1,13 +1,5 @@
 import {v1} from "uuid";
-import todolist from "../Todolist";
-import {
-    AddTodolistActionType,
-    removeTodolistAC,
-    RemoveTodolistActionType,
-    todoListId1,
-    todoListId2
-} from "./todolists-reducer";
-import {useReducer} from "react";
+import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
 
 type TaskType = {
     id: string,
@@ -48,10 +40,11 @@ export  type ChangeTaskTitle = {
 type ActionsType = DeleteTaskActionType | ChangeTaskIsDoneType | AddTaskType | ChangeTaskTitle |
                    AddTodolistActionType | RemoveTodolistActionType
 
-const initialState: TasksType = {};
+const initialState: TasksType = {
+    count: []
+};
 
 export const tasksReducer = (state: TasksType = initialState, action: ActionsType): TasksType => {
-    console.log('in tasks')
     switch (action.type) {
         case "DELETE-TASK":
             let todolist = action.todolistId

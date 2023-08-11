@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import './App.css';
-import Todolist, {TaskType} from "./components/Todolist/Todolist";
+import {TaskType, Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
-import AddItemForm from "./components/AddItemForm/AddItemForm";
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import Container from '@material-ui/core/Container';
 import {Box, Grid, Paper} from "@mui/material";
 

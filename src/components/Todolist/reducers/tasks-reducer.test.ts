@@ -10,7 +10,6 @@ import {
     tasksReducer
 } from "./tasks-reducer";
 import {AddTask} from "@mui/icons-material";
-import todolist from "../Todolist";
 import {addTodolistAC, AddTodolistActionType} from "./todolists-reducer";
 
 let todoListId1 = v1();

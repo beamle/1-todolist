@@ -1,7 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
 import {useState} from "react";
-import todolist, {TaskType} from "./Todolist";
-import Todolist from "./Todolist";
 
 test("Should delete the task by id", () => {
     const Tasks = [

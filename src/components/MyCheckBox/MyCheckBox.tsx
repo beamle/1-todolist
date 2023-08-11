@@ -4,16 +4,17 @@ import Checkbox from '@mui/material/Checkbox';
 
 
 type InputTypeProps = {
+    taskId: string
     checked?: boolean
-    callback: (isDone: boolean) => void
+    callback: (taskId: string, isDone: boolean) => void
 }
 
-export const MyCheckBox = ({checked, callback}: InputTypeProps) => {
+export const MyCheckBox = ({checked, callback, taskId}: InputTypeProps) => {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        callback(e.currentTarget.checked) // тут чекед будет измененнный, т.к чебокс сперва меняет значение,
+        callback(taskId, e.currentTarget.checked)
+        // тут чекед будет измененнный, т.к чебокс сперва меняет значение,
         // а затем срабатывает 'change' event и наш обьект Event будет уже иметь новове значние чебокса
     }
-
 
     return (
         <Checkbox checked={checked} onChange={onChangeHandler}/>

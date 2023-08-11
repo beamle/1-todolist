@@ -7,7 +7,7 @@ import { todolistsReducer } from "./components/Todolist/reducers/todolists-reduc
 //     tasls: TasksType[]
 // }
 
-export type AppRootState = ReturnType<typeof rootReducer>
+export type AppRootStateType = ReturnType<typeof rootReducer>
 
 const rootReducer = combineReducers({
     todolists: todolistsReducer,

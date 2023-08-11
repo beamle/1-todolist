@@ -1,8 +1,8 @@
 import React, {useReducer} from 'react';
 import './App.css';
-import Todolist, {TaskType} from "./components/Todolist/Todolist";
+import {TaskType, Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
-import AddItemForm from "./components/AddItemForm/AddItemForm";
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import Container from '@material-ui/core/Container';
 import {Box, Grid, Paper} from "@mui/material";
 import {
@@ -30,7 +30,7 @@ export type TasksType = {
     [key: string]: TaskType[]
 }
 
-function App() {
+export const AppWithReducers = React.memo(() => {
     let todoListId1 = v1();
     let todoListId2 = v1();
 
@@ -135,6 +135,5 @@ function App() {
             </Container>
         </div>
     );
-}
+})
 
-export default App;

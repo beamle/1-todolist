@@ -6,8 +6,8 @@ type EditableSpanProps = {
     title: string
     changeTitleHandler: (title: string) => void
 }
-export const EditableSpan: FC<EditableSpanProps> = (props) => {
-    console.log(props.title, 'editablespan')
+export const EditableSpan: FC<EditableSpanProps> = React.memo((props) => {
+    console.log(props.title, 'editablespan is renderd')
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -21,6 +21,7 @@ export const EditableSpan: FC<EditableSpanProps> = (props) => {
     }
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value);
 
+
     return editMode
         ? <TextField margin={"none"} value={title} onBlur={activateViewMode} onChange={onChangeTitleHandler} autoFocus
                      InputProps={{disableUnderline: true}}
@@ -29,4 +30,4 @@ export const EditableSpan: FC<EditableSpanProps> = (props) => {
                       variant="body2" display="inline"
         >
             {props.title}</Typography>
-}
+})

@@ -7,7 +7,7 @@ type PropsType = {
     className: "text" | "outlined" | "contained" | undefined
 }
 
-const MyButton = ({name, callBack, className}: PropsType) => {
+export const MyButton = React.memo(({name, callBack, className}: PropsType) => {
     const onClickHandler = () => {
         callBack()
     }
@@ -18,6 +18,4 @@ const MyButton = ({name, callBack, className}: PropsType) => {
         <Button variant={className} onClick={onClickHandler} color={'default'}>{name}</Button>
         //     <IconButton className={className} onClick={onClickHandler} size={'small'} color={'default'} ><AddTaskIcon/></IconButton>
     );
-};
-
-export default MyButton;
+})
