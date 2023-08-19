@@ -4,30 +4,15 @@ import MyButton from "@material-ui/core/Button";
 import {IconButton, TextField} from "@material-ui/core";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import Grid from "@mui/material/Grid";
+import {useAddItemForm} from "./hooks/useAddItemForm";
 
-type AddItemFormPropsType = {
+export type AddItemFormPropsType = {
     addItem: (title: string) => void
 
 }
 
 export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({addItem}) => {
-    const [error, setError] = useState<string | null>('');
-    const [inputText, setInputText] = useState('');
-    console.log("add itemForm")
-    function addTaskBtnHandle() {
-        if (inputText.trim()) {
-            addItem(inputText.trim())
-            setInputText('')
-        } else {
-            setError('Title is required')
-        }
-    }
-
-    function inputOnChangeHandle(e: ChangeEvent<HTMLInputElement>) {
-        setInputText(e.target.value)
-        setError("")
-    }
-
+    const {error, inputText, inputOnChangeHandle, addTaskBtnHandle} = useAddItemForm(addItem);
 
     return (
         <Grid container sx={{justifyContent: "center", mt: 1}}>

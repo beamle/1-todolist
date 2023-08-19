@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import {FilterValuesType} from "../../App";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {MyButton} from "../Button/Button";
@@ -9,6 +8,7 @@ import {addTaskAC} from "./reducers/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import Task from "../Task/Task";
 import {AppRootStateType} from "../../store";
+import {FilterValuesType} from "../../AppWithRedux";
 
 type PropsType = {
     id: string

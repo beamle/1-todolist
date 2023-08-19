@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {useState} from "react";
-import {TasksType} from "../../../App";
+import {TasksType} from "../../App/App";
 import {
     addTaskAC,
     AddTaskType,
