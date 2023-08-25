@@ -1,14 +1,14 @@
 import {useState} from "react";
-import {FilterValuesType, TodoListType} from "../App";
 import {todoListId1, todoListId2} from "../id-utils";
 import {v1} from "uuid";
+import {FilterValuesType, TodolistDomainType} from "../../Todolist/reducers/todolists-reducer";
 
 export function useTodolists(onTodolistRemove: (todolistId: string) => void,
                              addEmptyTasksArr: (todolistId: string) => void)
 {
-    let [todoLists, setTodoLists] = useState<TodoListType[]>([
-        {id: todoListId1, title: "Todo", filter: "active"},
-        {id: todoListId2, title: "Finished", filter: "completed"}
+    let [todoLists, setTodoLists] = useState<TodolistDomainType[]>([
+        {id: todoListId1, title: "Todo", addedDate: '', order: 0, filter: "active"},
+        {id: todoListId1, title: "Todo", addedDate: '', order: 1, filter: "completed"}
     ])
 
     // TODOLISTS MANIPULATION
@@ -18,7 +18,7 @@ export function useTodolists(onTodolistRemove: (todolistId: string) => void,
     }
 
     function addTodolist(title: string) {
-        let todolist: TodoListType = {id: v1(), title: title, filter: "all"}
+        let todolist: TodolistDomainType = {id: v1(), title: title, addedDate: "", order: 0, filter: "all"}
         setTodoLists([...todoLists, todolist])
         addEmptyTasksArr(todolist.id)
     }

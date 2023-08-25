@@ -1,9 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {action} from '@storybook/addon-actions'
-import {TaskType} from "../Todolist/Todolist";
 import Task from "./Task";
-import React from "react";
 import {ReduxStoreProviderDecorator} from "../../stories/ReduxStoreProviderDecorator";
+import {TaskPriorities, TaskStatuses} from "../../api/todolistsAPI";
 
 const meta: Meta<typeof Task> = {
     title: 'TASKS/Task',
@@ -22,11 +20,19 @@ type Story = StoryObj<typeof Task>;
 
 export const TaskExample: Story = {
     args: {
-        task: {id: '1', title: "Hello", isDone: true},
+        task: {
+            id: '1', title: "Hello", completed: true, status: TaskStatuses.Completed,
+            todoListId: "1",
+            description: '',
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TaskPriorities.Low,
+        },
         todolistId: "todolist1"
     },
 };
-
 
 
 // args === props

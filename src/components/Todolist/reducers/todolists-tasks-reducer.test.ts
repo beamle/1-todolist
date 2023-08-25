@@ -1,12 +1,13 @@
-import {TasksType, TodoListType} from "../../App/App";
-import {addTodolistAC, removeTodolistAC, todolistsReducer} from "./todolists-reducer";
+import {addTodolistAC, removeTodolistAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
 import {tasksReducer} from "./tasks-reducer";
 import {v1} from "uuid";
 import {useState} from "react";
+import {TasksType} from "../../../AppWithRedux";
+import {TaskPriorities, TaskStatuses, TodolistType} from "../../../api/todolistsAPI";
 
 test('todolist and tasks arr should be added', () => {
     const startTasksState: TasksType = {};
-    const startTodolistsState: TodoListType[] = [];
+    const startTodolistsState: TodolistDomainType[] = [];
 
     const action = addTodolistAC("new todolist") //todolistId, title, type: ADD-TODOLIST
 
@@ -25,19 +26,71 @@ test('todolist and tasks arr should be erased', () => {
     let todoListId1: string = v1();
     let todoListId2: string = v1();
 
-    const startTodolistsState: TodoListType[] = [
-        {id: todoListId1, title: "Todo", filter: "active"},
-        {id: todoListId2, title: "Finished", filter: "completed"}
+    const startTodolistsState: TodolistDomainType[] = [
+        {
+            id: todoListId1,
+            title: "HTML/CSS",
+            addedDate: "",
+            order: 0,
+            filter: 'active'
+        },
+        {
+            id: todoListId2,
+            title: "NEW",
+            addedDate: '',
+            order: 0,
+            filter: "active"
+        }
     ];
 
     const startTasksState: TasksType = {
         [todoListId1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false}],
+            {id: v1(), title: "HTML&CSS", completed: true,
+                status: TaskStatuses.New,
+                description: '',
+                todoListId: "2",
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low},
+            {id: v1(), title: "JS", completed: true,
+                status: TaskStatuses.New,
+                description: '',
+                todoListId: "2",
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low},
+            {id: v1(), title: "Something", completed: true,
+                status: TaskStatuses.New,
+                description: '',
+                todoListId: "2",
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low}],
         [todoListId2]: [
-            {id: v1(), title: "Angular", isDone: false},
-            {id: v1(), title: "Java", isDone: false}
+            {id: v1(), title: "A", completed: true,
+                status: TaskStatuses.New,
+                description: '',
+                todoListId: "2",
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low},
+            {id: v1(), title: "B", completed: true,
+                status: TaskStatuses.New,
+                description: '',
+                todoListId: "2",
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low}
         ],
     };
 

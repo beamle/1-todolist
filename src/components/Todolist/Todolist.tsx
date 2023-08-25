@@ -1,14 +1,15 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {MyButton} from "../Button/Button";
 import Button from "@material-ui/core/Button";
 import {Box} from "@mui/material";
-import {addTaskAC} from "./reducers/tasks-reducer";
+import {addTaskAC, fetchTasksTC} from "./reducers/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import Task from "../Task/Task";
-import {AppRootStateType} from "../../store";
-import {FilterValuesType} from "../../AppWithRedux";
+import {AppRootStateType, useAppDispatch} from "../../store";
+import {FilterValuesType} from "./reducers/todolists-reducer";
+import {TaskStatuses, TaskType} from "../../api/todolistsAPI";
 
 type PropsType = {
     id: string
@@ -20,17 +21,21 @@ type PropsType = {
     addTodoList?: () => void
 }
 
-export type TaskType = {
-    id: string,
-    title: string,
-    isDone: boolean
-}
+// export type TaskType = {
+//     id: string,
+//     title: string,
+//     isDone: boolean
+// }
 
 export const Todolist = React.memo((props: PropsType) => {
     console.log('Todolist rendered')
     const {title, filter, allFiltersHandler, deleteTodoList, id, changeTodolistTitleHandler} = props
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
+
+    useEffect(() => {
+        dispatch(fetchTasksTC(props.id))
+    },[])
 
     const addNewTask = useCallback((title: string) => {
         const action = addTaskAC(id, title);
@@ -42,10 +47,10 @@ export const Todolist = React.memo((props: PropsType) => {
     let tasksForTodolist = tasks
 
     if (filter === 'active') {
-        tasksForTodolist = tasksForTodolist.filter(task => task.isDone)
+        tasksForTodolist = tasksForTodolist.filter(task => task.completed)
     }
     if (filter === 'completed') {
-        tasksForTodolist = tasksForTodolist.filter(task => !task.isDone)
+        tasksForTodolist = tasksForTodolist.filter(task => !task.completed)
     }
 
 

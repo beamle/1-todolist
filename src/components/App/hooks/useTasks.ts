@@ -1,20 +1,34 @@
 import {useState} from "react";
 import {v1} from "uuid";
-import {TasksType} from "../App";
 import {todoListId1, todoListId2} from "../id-utils";
-import {TaskType} from "../../Todolist/Todolist";
+import {TasksType} from "../../../AppWithRedux";
+import {TaskPriorities, TaskStatuses, TaskType} from "../../../api/todolistsAPI";
 
 export function useTaskos() {
     let [tasks, setTasks] = useState<TasksType>({
         [todoListId1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false}],
+            {id: v1(), title: "HTML&CSS", completed: true,
+                status: TaskStatuses.New,
+                description: '',
+                todoListId: "2",
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low,
+                }],
         [todoListId2]: [
-            {id: v1(), title: "Angular", isDone: false},
-            {id: v1(), title: "Java", isDone: false}
-        ],
-    });
+            {id: v1(), title: "Angular", completed: false,
+                status: TaskStatuses.New,
+                todoListId: "1",
+                description: '',
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low,
+                }]
+    },);
 
     // TASKS MANIPULATION
     function changeIsDone(id: string, newIsDone: boolean, todoListId: string) {
@@ -32,7 +46,15 @@ export function useTaskos() {
     }
 
     function addTask(title: string, todoListId: string) {
-        let newTask = {id: v1(), title: title, isDone: false};
+        let newTask = {id: v1(), title: title, completed: true,
+            status: TaskStatuses.New,
+            description: '',
+            todoListId: "2",
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TaskPriorities.Low,};
         let tasksArr = tasks[todoListId];
         tasks[todoListId] = [...tasksArr, newTask]
         setTasks({...tasks})

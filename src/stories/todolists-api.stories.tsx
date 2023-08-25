@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
-import {tasksApi, todolistsApi, TodolistType} from "../api/todolists-api";
+import {tasksApi, todolistsAPI, TodolistType} from "../api/todolistsAPI";
 
 export default {
     title: 'API'
@@ -10,7 +10,7 @@ export default {
 export const GetTodolists = () => {
     const [state, setState] = useState<TodolistType[]>([])
     useEffect(() => {
-        todolistsApi.getTodolists() // returns promise
+        todolistsAPI.getTodolists() // returns promise
             .then(res => setState(res.data))
             .catch(err => console.log(err
             ))
@@ -23,7 +23,7 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todolistsApi.createTodolist("supertodolist2")
+        todolistsAPI.createTodolist("supertodolist2")
             .then((res) => {
                 setState(res.data)
             })
@@ -35,7 +35,7 @@ export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
         const todolistId = "0a35a26e-7616-4b89-b5dc-d54d2bd2dd66"
-        todolistsApi.deleteTodolist(todolistId)
+        todolistsAPI.deleteTodolist(todolistId)
             .then(res => setState(res.data))
     }, [])
 
@@ -45,7 +45,7 @@ export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
         const todolistId = "e178122d-105c-47aa-9065-cf4372c4edfb"
-        todolistsApi.updateTodolist(todolistId, "HEEEELOOOOOOOO")
+        todolistsAPI.updateTodolist(todolistId, "HEEEELOOOOOOOO")
             .then(res => setState(res.data))
     }, [])
 

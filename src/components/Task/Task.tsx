@@ -4,8 +4,8 @@ import Delete from "@material-ui/icons/Delete";
 import {MyCheckBox} from "../MyCheckBox/MyCheckBox";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC} from "../Todolist/reducers/tasks-reducer";
-import {TaskType} from "../Todolist/Todolist";
 import {useDispatch} from "react-redux";
+import {TaskStatuses, TaskType} from "../../api/todolistsAPI";
 
 type TaskPropsType = {
     task: TaskType
@@ -13,11 +13,11 @@ type TaskPropsType = {
 }
 
 const Task = ({task, todolistId}: TaskPropsType) => {
-    const {id, isDone, title} = task
+    const {id, completed, title} = task
     const dispatch = useDispatch()
 
-    const changeIsDoneHandler = useCallback((taskId: string, isDone: boolean) => {
-        const action = changeTaskStatusAC(todolistId, id, isDone)
+    const changeIsDoneHandler = useCallback((taskId: string, completed: boolean) => {
+        const action = changeTaskStatusAC(todolistId, id, completed)
         dispatch(action)
     },[])
 
@@ -32,7 +32,7 @@ const Task = ({task, todolistId}: TaskPropsType) => {
         <div>
             <IconButton onClick={() => deleteTaskHandler(id)}><Delete/></IconButton>
             {/*<button onClick={() => deleteTaskHandler(task.id)}>&#10007;</button>*/}
-            <MyCheckBox checked={isDone} callback={changeIsDoneHandler} taskId={id}/>
+            <MyCheckBox checked={completed} callback={changeIsDoneHandler} taskId={id}/>
             <EditableSpan title={title} changeTitleHandler={changeTaskTitleHandler}
             />
         </div>

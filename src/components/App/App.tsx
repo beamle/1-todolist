@@ -5,19 +5,18 @@ import Container from '@material-ui/core/Container';
 import {Box, Grid, Paper} from "@mui/material";
 import {useTodolists} from "./hooks/useTodolists";
 import {useTaskos} from "./hooks/useTasks";
-import {TaskType, Todolist} from '../Todolist/Todolist';
 
-
-export type FilterValuesType = 'all' | 'active' | 'completed'
-export type TodoListType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
-
-export type TasksType = {
-    [key: string]: TaskType[]
-}
+//
+// export type FilterValuesType = 'all' | 'active' | 'completed'
+// export type TodoListType = {
+//     id: string
+//     title: string
+//     filter: FilterValuesType
+// }
+//
+// export type TasksType = {
+//     [key: string]: TaskType[]
+// }
 
 function App() {
     const { tasks, setTasks, changeIsDone, deleteTask, addTask, changeTaskTitleHandler, removeTasksFromTodolist,
