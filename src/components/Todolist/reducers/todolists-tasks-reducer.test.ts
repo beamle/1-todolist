@@ -1,4 +1,10 @@
-import {addTodolistAC, removeTodolistAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
+import {
+    addTodolistAC,
+    FilterValuesType,
+    removeTodolistAC,
+    TodolistDomainType,
+    todolistsReducer
+} from "./todolists-reducer";
 import {tasksReducer} from "./tasks-reducer";
 import {v1} from "uuid";
 import {useState} from "react";
@@ -9,7 +15,7 @@ test('todolist and tasks arr should be added', () => {
     const startTasksState: TasksType = {};
     const startTodolistsState: TodolistDomainType[] = [];
 
-    const action = addTodolistAC("new todolist") //todolistId, title, type: ADD-TODOLIST
+    const action = addTodolistAC({id: v1(), title: "action.todolist.title", addedDate: '', order: 0}) //todoListId, title, type: ADD-TODOLIST
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)
@@ -18,8 +24,8 @@ test('todolist and tasks arr should be added', () => {
     const idFromTasks = keys[0];
     const idFromTodolists = endTodolistsState[0].id;
 
-    expect(idFromTasks).toBe(action.todolistId);
-    expect(idFromTodolists).toBe(action.todolistId);
+    expect(idFromTasks).toBe(action.todolist.id);
+    expect(idFromTodolists).toBe(action.todolist.id);
 })
 
 test('todolist and tasks arr should be erased', () => {
@@ -45,7 +51,7 @@ test('todolist and tasks arr should be erased', () => {
 
     const startTasksState: TasksType = {
         [todoListId1]: [
-            {id: v1(), title: "HTML&CSS", completed: true,
+            {id: v1(), title: "HTML&CSS",
                 status: TaskStatuses.New,
                 description: '',
                 todoListId: "2",
@@ -54,7 +60,7 @@ test('todolist and tasks arr should be erased', () => {
                 addedDate: '',
                 order: 0,
                 priority: TaskPriorities.Low},
-            {id: v1(), title: "JS", completed: true,
+            {id: v1(), title: "JS",
                 status: TaskStatuses.New,
                 description: '',
                 todoListId: "2",
@@ -63,7 +69,7 @@ test('todolist and tasks arr should be erased', () => {
                 addedDate: '',
                 order: 0,
                 priority: TaskPriorities.Low},
-            {id: v1(), title: "Something", completed: true,
+            {id: v1(), title: "Something",
                 status: TaskStatuses.New,
                 description: '',
                 todoListId: "2",
@@ -73,7 +79,7 @@ test('todolist and tasks arr should be erased', () => {
                 order: 0,
                 priority: TaskPriorities.Low}],
         [todoListId2]: [
-            {id: v1(), title: "A", completed: true,
+            {id: v1(), title: "A",
                 status: TaskStatuses.New,
                 description: '',
                 todoListId: "2",
@@ -82,7 +88,7 @@ test('todolist and tasks arr should be erased', () => {
                 addedDate: '',
                 order: 0,
                 priority: TaskPriorities.Low},
-            {id: v1(), title: "B", completed: true,
+            {id: v1(), title: "B",
                 status: TaskStatuses.New,
                 description: '',
                 todoListId: "2",
@@ -95,7 +101,6 @@ test('todolist and tasks arr should be erased', () => {
     };
 
     const action = removeTodolistAC(todoListId1)
-    debugger
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)
 

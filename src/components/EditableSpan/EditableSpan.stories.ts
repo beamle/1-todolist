@@ -9,7 +9,7 @@ const meta: Meta<typeof EditableSpan> = {
     tags: ['autodocs'],
     argTypes: {
         // task: "Task object",
-        // todolistId: "id of todolist"
+        // todoListId: "id of todolist"
     },
 };
 export default meta;

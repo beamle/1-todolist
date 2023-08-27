@@ -1,23 +1,5 @@
-import React, {useReducer} from 'react';
+import React from 'react';
 import './App.css';
-import {Todolist} from "./components/Todolist/Todolist";
-import {v1} from "uuid";
-import {AddItemForm} from "./components/AddItemForm/AddItemForm";
-import Container from '@material-ui/core/Container';
-import {Box, Grid, Paper} from "@mui/material";
-import {
-    addTodolistAC, changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC,
-    todolistsReducer
-} from "./components/Todolist/reducers/todolists-reducer";
-import {
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    deleteTaskAC,
-    tasksReducer
-} from "./components/Todolist/reducers/tasks-reducer";
 
 // export type FilterValuesType = 'all' | 'active' | 'completed'
 // export type TodoListType = {
@@ -51,7 +33,7 @@ export const AppWithReducers = React.memo(() => {
     //
     // // TASKS MANIPULATION
     // function changeIsDone(id: string, newIsDone: boolean, todoListId: string) {
-    //     const action = changeTaskStatusAC(todoListId, id, newIsDone)
+    //     const action = updateTaskAC(todoListId, id, newIsDone)
     //     dispatchToTasksReducer(action)
     // }
     //
@@ -84,8 +66,8 @@ export const AppWithReducers = React.memo(() => {
     //     dispatchToTasksReducer(action)
     // }
     //
-    // const changeTodolistTitleHandler = (todolistId: string, title: string) => {
-    //     dispatchToTdReducer(changeTodolistTitleAC(todolistId, title))
+    // const changeTodolistTitleHandler = (todoListId: string, title: string) => {
+    //     dispatchToTdReducer(changeTodolistTitleAC(todoListId, title))
     // }
     //
     // const allFiltersHandler = (todoListId: string, filter: FilterValuesType) => {

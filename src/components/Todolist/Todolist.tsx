@@ -4,8 +4,8 @@ import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {MyButton} from "../Button/Button";
 import Button from "@material-ui/core/Button";
 import {Box} from "@mui/material";
-import {addTaskAC, fetchTasksTC} from "./reducers/tasks-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {addTaskTC, fetchTasksTC} from "./reducers/tasks-reducer";
+import {useSelector} from "react-redux";
 import Task from "../Task/Task";
 import {AppRootStateType, useAppDispatch} from "../../store";
 import {FilterValuesType} from "./reducers/todolists-reducer";
@@ -32,14 +32,12 @@ export const Todolist = React.memo((props: PropsType) => {
     const {title, filter, allFiltersHandler, deleteTodoList, id, changeTodolistTitleHandler} = props
     const dispatch = useAppDispatch()
     const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
-
     useEffect(() => {
         dispatch(fetchTasksTC(props.id))
     },[])
 
     const addNewTask = useCallback((title: string) => {
-        const action = addTaskAC(id, title);
-        dispatch(action)
+        dispatch(addTaskTC(id, title))
     }, [id, title])
 
     const changeTodolistTitle = useCallback((title: string) => changeTodolistTitleHandler(title, id), [])
@@ -47,10 +45,10 @@ export const Todolist = React.memo((props: PropsType) => {
     let tasksForTodolist = tasks
 
     if (filter === 'active') {
-        tasksForTodolist = tasksForTodolist.filter(task => task.completed)
+        tasksForTodolist = tasksForTodolist.filter(task => task.status === TaskStatuses.New)
     }
     if (filter === 'completed') {
-        tasksForTodolist = tasksForTodolist.filter(task => !task.completed)
+        tasksForTodolist = tasksForTodolist.filter(task => task.status === TaskStatuses.Completed)
     }
 
 

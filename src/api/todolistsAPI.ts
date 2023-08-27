@@ -47,7 +47,6 @@ export enum TaskPriorities {
 export type TaskType = {
     description: string
     title: string
-    completed: boolean
     status: TaskStatuses
     priority: TaskPriorities
     startDate: string
@@ -76,6 +75,16 @@ type DeleteTaskResponseType = {
     messages: string
     data: ''
 }
+
+export type UpdateTaskModelType = {
+    title: string
+    description: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
+}
+
 export const todolistsAPI = {
     getTodolists() {
         let promise = instance.get<Array<TodolistType>>("todo-lists") // here typization shows what we return
@@ -96,13 +105,13 @@ export const tasksApi = {
     getTasks(todolistId: string){
         return instance.get<GetTasksResponseType>(`todo-lists/${todolistId}/tasks`)
     },
-    createTask(todolistId: string){
-        return instance.post<TaskResponseType<TaskType>>(`todo-lists/${todolistId}/tasks`,{title: "newTask"})
+    createTask(todolistId: string, title: string){
+        return instance.post<TaskResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`,{title})
     },
-    deleteTasks(todolistId: string, taskId:string){
+    deleteTask(todolistId: string, taskId:string){
         return instance.delete<DeleteTaskResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTasks(todolistId: string, taskId:string) {
-        return instance.put<TaskResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, {title: "UPDATED TITLE"})
+    updateTask(todolistId: string, taskId:string, model: UpdateTaskModelType) {
+        return instance.put<TaskResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 }

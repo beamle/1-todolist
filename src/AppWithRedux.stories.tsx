@@ -10,7 +10,7 @@ const meta: Meta<typeof AppWithRedux> = {
     tags: ['autodocs'],
     argTypes: {
         // task: "Task object",
-        // todolistId: "id of todolist"
+        // todoListId: "id of todolist"
     },
     decorators: [ReduxStoreProviderDecorator]
 };

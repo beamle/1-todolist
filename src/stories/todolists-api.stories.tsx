@@ -1,6 +1,12 @@
-import axios from 'axios'
 import React, {useEffect, useState} from 'react'
-import {tasksApi, todolistsAPI, TodolistType} from "../api/todolistsAPI";
+import {
+    TaskPriorities,
+    tasksApi,
+    TaskStatuses,
+    todolistsAPI,
+    TodolistType,
+    UpdateTaskModelType
+} from "../api/todolistsAPI";
 
 export default {
     title: 'API'
@@ -66,7 +72,7 @@ export const CreateTask = () => {
     const [state, setState] = useState<any>(null);
     const [todolistId, setTodolistId] = useState<any>(null);
     const createTask = () => {
-        tasksApi.createTask(todolistId)
+        tasksApi.createTask(todolistId, "hello")
             .then(res => setState(res.data))
     }
     return <div>{JSON.stringify(state)}
@@ -80,7 +86,7 @@ export const DeleteTasksssssss = () => {
     const [taskId, setTaskId] = useState('');
 
     const deleteTask = () => {
-        tasksApi.deleteTasks(todolistId, taskId)
+        tasksApi.deleteTask(todolistId, taskId)
             .then(res => setState(res.data))
     }
 
@@ -99,7 +105,15 @@ export const UpdateTask = () => {
     const [taskId, setTaskId] = useState('');
 
     const updateTask = () => {
-        tasksApi.updateTasks(todolistId, taskId)
+        const model: UpdateTaskModelType = {
+            title: '',
+            description: '',
+            status: TaskStatuses.InProgress,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            deadline: '',
+        }
+        tasksApi.updateTask(todolistId, taskId, model)
             .then(res => setState(res.data))
     }
     return <div>{JSON.stringify(state)}

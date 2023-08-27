@@ -19,7 +19,7 @@ const initialGlobalState: AppRootStateType = {
     tasks: {
         ["todolistId1"]: [
             {
-                id: v1(), title: "HTML&CSS", completed: true,
+                id: v1(), title: "HTML&CSS",
                 status: TaskStatuses.New,
                 description: '',
                 todoListId: "2",
@@ -32,7 +32,7 @@ const initialGlobalState: AppRootStateType = {
         ],
         ["todolistId2"]: [
             {
-                id: v1(), title: "Milk", completed: false,
+                id: v1(), title: "Milk",
                 status: TaskStatuses.New,
                 description: '',
                 todoListId: "2",

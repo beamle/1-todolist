@@ -19,10 +19,10 @@ import {useTaskos} from "./hooks/useTasks";
 // }
 
 function App() {
-    const { tasks, setTasks, changeIsDone, deleteTask, addTask, changeTaskTitleHandler, removeTasksFromTodolist,
-        addEmptyTasksArr} = useTaskos();
-    const { todoLists, setTodoLists, deleteTodoList, addTodolist, changeTodolistTitleHandler, allFiltersHandler}
-        = useTodolists(removeTasksFromTodolist, addEmptyTasksArr);
+    // const { tasks, setTasks, changeIsDone, deleteTask, addTask, changeTaskTitleHandler, removeTasksFromTodolist,
+    //     addEmptyTasksArr} = useTaskos();
+    // const { todoLists, setTodoLists, deleteTodoList, addTodolist, changeTodolistTitleHandler, allFiltersHandler}
+    //     = useTodolists(removeTasksFromTodolist, addEmptyTasksArr);
 
     return (
         <div className="App">

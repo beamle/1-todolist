@@ -9,7 +9,7 @@ const meta: Meta<typeof Task> = {
     tags: ['autodocs'],
     argTypes: {
         // task: "Task object",
-        // todolistId: "id of todolist"
+        // todoListId: "id of todolist"
     },
     decorators: [ReduxStoreProviderDecorator]
 };
@@ -21,7 +21,7 @@ type Story = StoryObj<typeof Task>;
 export const TaskExample: Story = {
     args: {
         task: {
-            id: '1', title: "Hello", completed: true, status: TaskStatuses.Completed,
+            id: '1', title: "Hello", status: TaskStatuses.Completed,
             todoListId: "1",
             description: '',
             startDate: '',

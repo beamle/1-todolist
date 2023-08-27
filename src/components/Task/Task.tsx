@@ -3,9 +3,9 @@ import {IconButton} from "@material-ui/core";
 import Delete from "@material-ui/icons/Delete";
 import {MyCheckBox} from "../MyCheckBox/MyCheckBox";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC} from "../Todolist/reducers/tasks-reducer";
-import {useDispatch} from "react-redux";
+import {deleteTaskTC, updateTaskTH} from "../Todolist/reducers/tasks-reducer";
 import {TaskStatuses, TaskType} from "../../api/todolistsAPI";
+import {useAppDispatch} from "../../store";
 
 type TaskPropsType = {
     task: TaskType
@@ -13,26 +13,26 @@ type TaskPropsType = {
 }
 
 const Task = ({task, todolistId}: TaskPropsType) => {
-    const {id, completed, title} = task
-    const dispatch = useDispatch()
+    const {id, status, title} = task
+    const dispatch = useAppDispatch()
 
-    const changeIsDoneHandler = useCallback((taskId: string, completed: boolean) => {
-        const action = changeTaskStatusAC(todolistId, id, completed)
-        dispatch(action)
-    },[])
+    const changeIsDoneHandler = useCallback((checked: boolean) => {
+        const status =  checked ? TaskStatuses.Completed : TaskStatuses.New
+        dispatch(updateTaskTH(todolistId, id, {status}))
+    },[id, todolistId])
 
     const deleteTaskHandler = useCallback((taskId: string) => {
-        dispatch(deleteTaskAC(id, todolistId))
+        dispatch(deleteTaskTC(todolistId, taskId))
     },[])
 
     const changeTaskTitleHandler = useCallback((title: string) => {
-        dispatch(changeTaskTitleAC(todolistId, id, title))
+        dispatch(updateTaskTH(todolistId, id, {title}))
     },[])
     return (
         <div>
             <IconButton onClick={() => deleteTaskHandler(id)}><Delete/></IconButton>
             {/*<button onClick={() => deleteTaskHandler(task.id)}>&#10007;</button>*/}
-            <MyCheckBox checked={completed} callback={changeIsDoneHandler} taskId={id}/>
+            <MyCheckBox checked={status} callback={changeIsDoneHandler}/>
             <EditableSpan title={title} changeTitleHandler={changeTaskTitleHandler}
             />
         </div>

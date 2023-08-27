@@ -6,13 +6,14 @@ import {Box, Grid, Paper} from "@mui/material";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, fetchTodolistTC, FilterValuesType,
+    changeTodolistTitleAC, changeTodolistTitleTH, createTodolistTC, deleteTodolistTC, fetchTodolistTC, FilterValuesType,
     removeTodolistAC, setTodolistsAC, TodolistDomainType
 } from "./components/Todolist/reducers/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {AppRootStateType, useAppDispatch} from "./store";
 import {TaskType, todolistsAPI} from "./api/todolistsAPI";
+import {deleteTaskTC} from "./components/Todolist/reducers/tasks-reducer";
 
 // export type FilterValuesType = 'all' | 'active' | 'completed'
 // export type TodoListType = {
@@ -37,17 +38,15 @@ function AppWithRedux() {
 
     // TODOLISTS MANIPULATION
     const deleteTodoList = useCallback( (id: string) => {
-        const action = removeTodolistAC(id)
-        dispatch(action)
+        dispatch(deleteTodolistTC(id))
     }, [])
 
     const addTodolist = useCallback((title: string) => {
-        const action = addTodolistAC(title)
-        dispatch(action)
+        dispatch(createTodolistTC(title))
     }, [])
 
     const changeTodolistTitleHandler = useCallback((title: string, todolistId: string) => {
-        dispatch(changeTodolistTitleAC(title, todolistId))
+        dispatch(changeTodolistTitleTH(todolistId, title))
     }, [])
 
     const allFiltersHandler = useCallback( (todoListId: string, filter: FilterValuesType) => {
