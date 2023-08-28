@@ -1,15 +1,15 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {MyButton} from "../Button/Button";
+import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
+import {MyButton} from "../../../components/Button/Button";
 import Button from "@material-ui/core/Button";
 import {Box} from "@mui/material";
-import {addTaskTC, fetchTasksTC} from "./reducers/tasks-reducer";
+import {addTaskTC, fetchTasksTC} from "./Task/reducers/tasks-reducer";
 import {useSelector} from "react-redux";
-import Task from "../Task/Task";
-import {AppRootStateType, useAppDispatch} from "../../store";
+import Task from "./Task/Task";
+import {AppRootStateType, useAppDispatch} from "../../../store";
 import {FilterValuesType} from "./reducers/todolists-reducer";
-import {TaskStatuses, TaskType} from "../../api/todolistsAPI";
+import {TaskStatuses, TaskType} from "../../../api/todolistsAPI";
 
 type PropsType = {
     id: string

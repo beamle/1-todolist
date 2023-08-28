@@ -1,6 +1,6 @@
 import React from 'react';
-import '../../App.css';
-import {AddItemForm} from "../AddItemForm/AddItemForm";
+import '../../app/App.css';
+import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import Container from '@material-ui/core/Container';
 import {Box, Grid, Paper} from "@mui/material";
 import {useTodolists} from "./hooks/useTodolists";

@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import '../app/App.css';
 
 // export type FilterValuesType = 'all' | 'active' | 'completed'
 // export type TodoListType = {

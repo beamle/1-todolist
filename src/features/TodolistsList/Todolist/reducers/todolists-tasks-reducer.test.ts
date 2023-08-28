@@ -5,11 +5,10 @@ import {
     TodolistDomainType,
     todolistsReducer
 } from "./todolists-reducer";
-import {tasksReducer} from "./tasks-reducer";
+import {tasksReducer, TasksType} from "../Task/reducers/tasks-reducer";
 import {v1} from "uuid";
 import {useState} from "react";
-import {TasksType} from "../../../AppWithRedux";
-import {TaskPriorities, TaskStatuses, TodolistType} from "../../../api/todolistsAPI";
+import {TaskPriorities, TaskStatuses, TodolistType} from "../../../../api/todolistsAPI";
 
 test('todolist and tasks arr should be added', () => {
     const startTasksState: TasksType = {};

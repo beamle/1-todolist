@@ -1,12 +1,13 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
-import AppWithRedux from "./AppWithRedux";
-import {ReduxStoreProviderDecorator} from "./stories/ReduxStoreProviderDecorator";
+
+import {ReduxStoreProviderDecorator} from "../stories/ReduxStoreProviderDecorator";
+import App from "./App";
 
 
-const meta: Meta<typeof AppWithRedux> = {
-    title: 'App with redux',
-    component: AppWithRedux,
+const meta: Meta<typeof App> = {
+    title: 'App',
+    component: App,
     tags: ['autodocs'],
     argTypes: {
         // task: "Task object",
@@ -17,11 +18,11 @@ const meta: Meta<typeof AppWithRedux> = {
 export default meta;
 
 
-type Story = StoryObj<typeof AppWithRedux>;
+type Story = StoryObj<typeof App>;
 
 const changeTitleCallback = action("The title changed to: ")
 
-export const AppWithReduxExample: Story = {
+export const AppExample: Story = {
     args: {
     },
 };

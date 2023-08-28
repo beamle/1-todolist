@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {v1} from "uuid";
 import {todoListId1, todoListId2} from "../id-utils";
-import {TasksType} from "../../../AppWithRedux";
 import {TaskPriorities, TaskStatuses, TaskType} from "../../../api/todolistsAPI";
 
 export function useTaskos() {

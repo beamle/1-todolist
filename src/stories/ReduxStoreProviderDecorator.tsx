@@ -1,8 +1,8 @@
 import React from 'react'
 import {Provider} from 'react-redux';
 import {AppRootStateType} from "../store";
-import {todolistsReducer} from "../components/Todolist/reducers/todolists-reducer";
-import {tasksReducer} from "../components/Todolist/reducers/tasks-reducer";
+import {todolistsReducer} from "../features/TodolistsList/Todolist/reducers/todolists-reducer";
+import {tasksReducer} from "../features/TodolistsList/Todolist/Task/reducers/tasks-reducer";
 import {v1} from "uuid";
 import {combineReducers, legacy_createStore, legacy_createStore as createStore} from "redux";
 import {TaskPriorities, TaskStatuses} from "../api/todolistsAPI";

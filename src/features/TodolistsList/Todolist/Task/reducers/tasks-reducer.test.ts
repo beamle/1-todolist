@@ -5,12 +5,11 @@ import {
     deleteTaskAC,
     DeleteTaskActionType,
     setTasksAC,
-    tasksReducer,
+    tasksReducer, TasksType,
     updateTaskAC, UpdateTaskType
 } from "./tasks-reducer";
-import {addTodolistAC, AddTodolistActionType, setTodolistsAC} from "./todolists-reducer";
-import {TasksType} from "../../../AppWithRedux";
-import {TaskPriorities, TaskStatuses} from "../../../api/todolistsAPI";
+import {addTodolistAC, AddTodolistActionType, setTodolistsAC} from "../../reducers/todolists-reducer";
+import {TaskPriorities, TaskStatuses} from "../../../../../api/todolistsAPI";
 
 let todoListId1 = v1();
 let todoListId2 = v1();
