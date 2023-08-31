@@ -8,12 +8,12 @@ import {
     fetchTodolistTC,
     FilterValuesType,
     TodolistDomainType
-} from "../TodolistsList/Todolist/reducers/todolists-reducer";
+} from "./Todolist/reducers/todolists-reducer";
 import React, {useCallback, useEffect} from "react";
 import {Box, Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
-import {Todolist} from "../TodolistsList/Todolist/Todolist";
-import {TasksType} from "../TodolistsList/Todolist/Task/reducers/tasks-reducer";
+import {Todolist} from "./Todolist/Todolist";
+import {TasksType} from "./Todolist/Task/reducers/tasks-reducer";
 
 
 export const TodolistsList = () => {
@@ -66,6 +66,7 @@ export const TodolistsList = () => {
                         </Paper>
                     </Grid>
                 })}
+
             </Grid>
         </Box></>
 }
