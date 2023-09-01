@@ -91,9 +91,8 @@ type GetTasksResponseType = {
 }
 type TaskResponseType<T = {}> = {
     data: T
-    totalCount: number
+    messages: [string]
     resultCode?: number
-    error: string
 }
 type DeleteTaskResponseType = {
     resultCode: number

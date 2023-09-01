@@ -8,11 +8,15 @@ import {AppBar, IconButton, Typography} from "@material-ui/core";
 import Toolbar from '@mui/material/Toolbar';
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
+import LinearProgress from "@mui/material/LinearProgress";
+import {AppRootStateType} from "../store";
+import {useSelector} from "react-redux";
+import {RequestStatusType} from "./app-reducer";
 
 
 function App() {
     console.log("APP is rerendered")
-
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
     return (
         <div className="App">
@@ -25,6 +29,7 @@ function App() {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
+            {status === 'loading' && <LinearProgress/>}
             <Container>
                 <ErrorSnackbar/>
                 <TodolistsList/>

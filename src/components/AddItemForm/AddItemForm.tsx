@@ -8,12 +8,10 @@ import {useAddItemForm} from "./hooks/useAddItemForm";
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
-
 }
 
 export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({addItem}) => {
     const {error, inputText, inputOnChangeHandle, addTaskBtnHandle} = useAddItemForm(addItem);
-
     return (
         <Grid container sx={{justifyContent: "center", mt: 1}}>
             <TextField error={!!error} value={inputText} onChange={inputOnChangeHandle}
@@ -22,7 +20,7 @@ export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({addItem}) => {
                        type="search"
                        label="Search field"/>
             {/*<MyButton onClick={addTaskBtnHandle} variant={'outlined'} color={"default"}>+</MyButton>*/}
-            <IconButton onClick={addTaskBtnHandle} color='primary'><AddTaskIcon/></IconButton>
+            <IconButton onClick={addTaskBtnHandle} color='primary' disabled={!!error}><AddTaskIcon /></IconButton>
             {error && <div className={s.errorMessage}>{error}</div>}
         </Grid>
     );
