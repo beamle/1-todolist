@@ -13,8 +13,11 @@ import {AppRootStateType} from "../store";
 import {useSelector} from "react-redux";
 import {RequestStatusType} from "./app-reducer";
 
+type AppPropsType = {
+    demo?: boolean // used for Storybook fetching logic segregation
+}
 
-function App() {
+function App({demo = false}: AppPropsType) {
     console.log("APP is rerendered")
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
@@ -32,7 +35,7 @@ function App() {
             {status === 'loading' && <LinearProgress/>}
             <Container>
                 <ErrorSnackbar/>
-                <TodolistsList/>
+                <TodolistsList demo={demo}/>
             </Container>
         </div>
     );

@@ -19,6 +19,7 @@ type PropsType = {
     filter: FilterValuesType
     deleteTodoList: (id: string) => void
     addTodoList?: () => void
+    demo?: boolean
 }
 
 // export type TaskType = {
@@ -29,11 +30,13 @@ type PropsType = {
 
 export const Todolist = React.memo((props: PropsType) => {
     console.log('Todolist rendered')
-    const {title, filter, allFiltersHandler, deleteTodoList, id, changeTodolistTitleHandler} = props
+    const {title, filter, allFiltersHandler, deleteTodoList, id, changeTodolistTitleHandler, demo = false} = props
     const dispatch = useAppDispatch()
     const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
+
     useEffect(() => {
-        dispatch(fetchTasksTC(props.id))
+        if (demo) return
+            dispatch(fetchTasksTC(props.id))
     },[])
 
     const addNewTask = useCallback((title: string) => {

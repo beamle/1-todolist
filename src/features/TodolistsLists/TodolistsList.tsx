@@ -15,14 +15,19 @@ import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksType} from "./Todolist/Task/reducers/tasks-reducer";
 
+type TodolistsList = {
+    demo?: boolean
+}
 
-export const TodolistsList = () => {
+export const TodolistsList = ({demo = false}: TodolistsList) => {
     const dispatch = useAppDispatch()
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
     // 1 parameter - kakoi globalnyj state, 2 - kakoi state sobiraemsja dostavatj
 
     useEffect(() => {
+        console.log(demo)
+        if (demo) return
         dispatch(fetchTodolistTC())
     }, [])
 
@@ -62,6 +67,7 @@ export const TodolistsList = () => {
                                       filter={tl.filter}
                                       deleteTodoList={deleteTodoList}
                                       changeTodolistTitleHandler={changeTodolistTitleHandler}
+                                      demo={demo}
                             />
                         </Paper>
                     </Grid>

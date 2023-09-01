@@ -24,6 +24,7 @@ const changeTitleCallback = action("The title changed to: ")
 
 export const AppExample: Story = {
     args: {
+        demo: true
     },
 };
 
