@@ -1,7 +1,12 @@
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from "../../reducers/todolists-reducer";
+import {
+    AddTodolistActionType,
+    RemoveTodolistActionType,
+    SetTodolistsActionType
+} from "../../reducers/todolists-reducer";
 import {TaskPriorities, tasksApi, TaskStatuses, TaskType, UpdateTaskModelType} from "../../../../../api/todolistsAPI";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../../../../store";
+import {setErrorAC, SetErrorActionType, setStatusAC, SetStatusActionType} from "../../../../../app/app-reducer";
 
 const initialState: TasksType = {};
 
@@ -61,21 +66,40 @@ export const setTasksAC = (tasks: TaskType[], todolistId: string) =>
 
 
 // thunk creator
-export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<TaskActionsType>) => {
+export const fetchTasksTC = (todolistId: string) => (dispatch: TaskThunkDispatchType) => {
+    dispatch(setStatusAC('loading'))
     tasksApi.getTasks(todolistId)
-        .then(res => dispatch(setTasksAC(res.data.items, todolistId)))
+        .then(res => {
+            dispatch(setTasksAC(res.data.items, todolistId))
+            dispatch(setStatusAC('succeeded'))
+        })
 }
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch<TaskActionsType>) => {
-        tasksApi.deleteTask(todolistId, taskId)
-            .then(res => dispatch(deleteTaskAC(taskId, todolistId)))
-    }
-export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch<TaskActionsType>) => {
-        tasksApi.createTask(todolistId, title)
-            .then(res => dispatch(addTaskAC(res.data.data.item))
-            )
-    }
+    tasksApi.deleteTask(todolistId, taskId)
+        .then(res => dispatch(deleteTaskAC(taskId, todolistId)))
+}
+export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch<TaskActionsType | SetErrorActionType | SetStatusActionType>) => {
+    dispatch(setStatusAC('loading'))
+    tasksApi.createTask(todolistId, title)
+        .then(res => {
+                if (res.data.resultCode === 0) {
+                    dispatch(addTaskAC(res.data.data.item))
+                    dispatch(setStatusAC('succeeded'))
+                } else {
+                    console.log(res)
+                    if (res.data.messages.length) {
+                        dispatch(setErrorAC(res.data.messages[0]))
+                    }
+                    else {
+                        dispatch(setErrorAC("Something went wrong! Try again"))
+                    }
+                    dispatch(setStatusAC('failed'))
+                }
+            }
+        )
+}
 export const updateTaskTH = (todolistId: string, taskId: string, domainModel: UpdateDomainTaskModelType) =>
-    (dispatch: Dispatch<TaskActionsType>, getState: () => AppRootStateType) => {
+    (dispatch: Dispatch<TaskActionsType | SetStatusActionType>, getState: () => AppRootStateType) => {
         const state = getState();
         const task = state.tasks[todolistId].find(t => t.id === taskId)
         if (!task) {
@@ -90,8 +114,12 @@ export const updateTaskTH = (todolistId: string, taskId: string, domainModel: Up
             deadline: task.deadline,
             ...domainModel
         }
+        dispatch(setStatusAC('loading'))
         tasksApi.updateTask(todolistId, taskId, apiModel)
-            .then(res => dispatch(updateTaskAC(todolistId, taskId, domainModel)))
+            .then(res => {
+                dispatch(updateTaskAC(todolistId, taskId, domainModel))
+                dispatch(setStatusAC('succeeded'))
+            })
     }
 
 // types
@@ -111,6 +139,7 @@ export type UpdateTaskType = ReturnType<typeof updateTaskAC>
 export type AddTaskType = ReturnType<typeof addTaskAC>
 export type SetTasksActionType = ReturnType<typeof setTasksAC>
 
+type TaskThunkDispatchType =  Dispatch<TaskActionsType | SetStatusActionType>
 
 type TaskActionsType = DeleteTaskActionType | UpdateTaskType | AddTaskType |
     AddTodolistActionType | RemoveTodolistActionType | SetTodolistsActionType | SetTasksActionType
