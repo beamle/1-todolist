@@ -24,6 +24,15 @@ export const AddItemFormStory: Story = {
     },
 };
 
+
+export const AddItemFormDisabledStory: Story = {
+    args: {
+        addItem: action('Button clicked inside the input'),
+        disabled: true
+    },
+};
+
+
 // args === props
 // another option
 

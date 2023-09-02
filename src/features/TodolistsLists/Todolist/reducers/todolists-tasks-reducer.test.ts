@@ -37,14 +37,16 @@ test('todolist and tasks arr should be erased', () => {
             title: "HTML/CSS",
             addedDate: "",
             order: 0,
-            filter: 'active'
+            filter: 'active',
+            entityStatus: 'idle'
         },
         {
             id: todoListId2,
             title: "NEW",
             addedDate: '',
             order: 0,
-            filter: "active"
+            filter: "active",
+            entityStatus: 'idle'
         }
     ];
 

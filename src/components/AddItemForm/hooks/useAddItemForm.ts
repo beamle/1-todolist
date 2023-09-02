@@ -1,6 +1,6 @@
 import {ChangeEvent, useState} from "react";
 import {useDispatch} from "react-redux";
-import {setErrorAC} from "../../../app/app-reducer";
+import {setAppErrorAC} from "../../../app/app-reducer";
 
 type AddItemFunction = (title: string) => void;
 
@@ -32,7 +32,7 @@ export const useAddItemForm = (addItem: AddItemFunction): AddItemFormReturnType 
         setInputText(e.target.value)
         if (inputText.length > 100) {
             console.log(inputText)
-            dispatch(setErrorAC("Length of title should be less than 100"))
+            dispatch(setAppErrorAC("Length of title should be less than 100"))
             setError(inputText.length.toString())
         }
         else {

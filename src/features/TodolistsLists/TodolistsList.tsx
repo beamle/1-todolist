@@ -14,6 +14,7 @@ import {Box, Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksType} from "./Todolist/Task/reducers/tasks-reducer";
+import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
 
 type TodolistsList = {
     demo?: boolean
@@ -23,6 +24,7 @@ export const TodolistsList = ({demo = false}: TodolistsList) => {
     const dispatch = useAppDispatch()
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
+    // const status = useSelector<AppRootStateType, RequestStatusType>(state => state.todolists.)
     // 1 parameter - kakoi globalnyj state, 2 - kakoi state sobiraemsja dostavatj
 
     useEffect(() => {
@@ -51,7 +53,7 @@ export const TodolistsList = ({demo = false}: TodolistsList) => {
     return <>
         <Grid container spacing={1}>
             <Grid>
-                <AddItemForm addItem={addTodolist}/>
+                <AddItemForm addItem={addTodolist} />
             </Grid>
         </Grid>
         <Box sx={{flexGrow: 1}}>
@@ -61,8 +63,9 @@ export const TodolistsList = ({demo = false}: TodolistsList) => {
                     return <Grid>
                         <Paper>
                             <Todolist key={tl.id}
-                                      id={tl.id}
-                                      title={tl.title}
+                                      todolist={tl}
+                                      // id={tl.id}
+                                      // title={tl.title}
                                       allFiltersHandler={allFiltersHandler}
                                       filter={tl.filter}
                                       deleteTodoList={deleteTodoList}
