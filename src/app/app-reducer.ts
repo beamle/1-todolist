@@ -1,5 +1,3 @@
-
-
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 type InitialStateType = {
