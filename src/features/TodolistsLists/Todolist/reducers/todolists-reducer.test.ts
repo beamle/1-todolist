@@ -3,7 +3,7 @@ import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC,
+    removeTodolistAC, setTodolistEntityStatusAC,
     setTodolistsAC,
     TodolistDomainType,
     todolistsReducer
@@ -14,8 +14,8 @@ let todolistId1 = v1()
 let todolistId2 = v1()
 
 const startState: TodolistDomainType[] = [
-    {id: todolistId1, title: "What to learn", filter: "all", order: 0, addedDate: ''},
-    {id: todolistId2, title: "What to buy", filter: "all", order: 0, addedDate: ''}
+    {id: todolistId1, title: "What to learn", filter: "all", order: 0, addedDate: '', entityStatus: 'idle'},
+    {id: todolistId2, title: "What to buy", filter: "all", order: 0, addedDate: '', entityStatus: 'idle'}
 ]
 
 test('correct todolist should be remover', () => {
@@ -76,4 +76,13 @@ test('todolists should be set to the state', () => {
     console.log(endState)
 
     expect(endState.length).toBe(2)
+})
+
+test('todolist entity status should be changed', () => {
+    const action = setTodolistEntityStatusAC(todolistId2, 'loading')
+    const endState = todolistsReducer(startState, action)
+    console.log(endState)
+
+    expect(endState[0].entityStatus).toBe('idle')
+    expect(endState[1].entityStatus).toBe('loading')
 })

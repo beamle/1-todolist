@@ -8,12 +8,14 @@ import {addTaskTC, fetchTasksTC} from "./Task/reducers/tasks-reducer";
 import {useSelector} from "react-redux";
 import Task from "./Task/Task";
 import {AppRootStateType, useAppDispatch} from "../../../store";
-import {FilterValuesType} from "./reducers/todolists-reducer";
-import {TaskStatuses, TaskType} from "../../../api/todolistsAPI";
+import {FilterValuesType, TodolistDomainType} from "./reducers/todolists-reducer";
+import {TaskStatuses, TaskType, TodolistType} from "../../../api/todolistsAPI";
+import {RequestStatusType} from "../../../app/app-reducer";
 
 type PropsType = {
-    id: string
-    title: string
+    // id: string
+    // title: string
+    todolist: TodolistDomainType
     changeTodolistTitleHandler: (title: string, todolistId: string) => void
     allFiltersHandler: (todoListId: string, filter: FilterValuesType) => void
     filter: FilterValuesType
@@ -30,20 +32,20 @@ type PropsType = {
 
 export const Todolist = React.memo((props: PropsType) => {
     console.log('Todolist rendered')
-    const {title, filter, allFiltersHandler, deleteTodoList, id, changeTodolistTitleHandler, demo = false} = props
+    const {todolist, filter, allFiltersHandler, deleteTodoList, changeTodolistTitleHandler, demo = false} = props
     const dispatch = useAppDispatch()
-    const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id])
+    const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolist.id])
 
     useEffect(() => {
         if (demo) return
-            dispatch(fetchTasksTC(props.id))
+            dispatch(fetchTasksTC(todolist.id))
     },[])
 
     const addNewTask = useCallback((title: string) => {
-        dispatch(addTaskTC(id, title))
-    }, [id, title])
+        dispatch(addTaskTC(todolist.id, title))
+    }, [todolist.id, todolist.title])
 
-    const changeTodolistTitle = useCallback((title: string) => changeTodolistTitleHandler(title, id), [])
+    const changeTodolistTitle = useCallback((title: string) => changeTodolistTitleHandler(title, todolist.id), [])
 
     let tasksForTodolist = tasks
 
@@ -54,6 +56,10 @@ export const Todolist = React.memo((props: PropsType) => {
         tasksForTodolist = tasksForTodolist.filter(task => task.status === TaskStatuses.Completed)
     }
 
+    const deleteTodolistHandler = () => {
+        deleteTodoList(todolist.id)
+    }
+
 
     function showTasks() {
         return tasksForTodolist.map(task => {
@@ -62,7 +68,7 @@ export const Todolist = React.memo((props: PropsType) => {
                     // <li key={task.id} className={task.isDone ? s.isDone : ''}
                     //     style={{width: '100%', display: 'flex', alignItems: 'center', listStyleType: 'none'}}>
                     // </li>
-                    <Task key={task.id} task={task} todolistId={id}/>
+                    <Task key={task.id} task={task} todolistId={todolist.id}/>
                 )
             }
         )
@@ -72,20 +78,20 @@ export const Todolist = React.memo((props: PropsType) => {
     return (
         <Box sx={{mt: 3, mr: 1, ml: 1}}>
             <div>
-                <Button onClick={() => deleteTodoList(id)}>X</Button>
-                <EditableSpan title={title} changeTitleHandler={changeTodolistTitle}/>
+                <Button onClick={deleteTodolistHandler} disabled={todolist.entityStatus === 'loading'}>X</Button>
+                <EditableSpan title={todolist.title} changeTitleHandler={changeTodolistTitle} disabled={todolist.entityStatus === 'loading'}/>
             </div>
             <div>
-                <AddItemForm addItem={addNewTask}/>
+                <AddItemForm addItem={addNewTask} todolistStatus={todolist.entityStatus}/>
                 <ul style={{padding: 0}}>{showTasks()}</ul>
             </div>
             <div>
                 <MyButton className={filter === 'all' ? 'contained' : 'outlined'} name={'all'}
-                          callBack={() => allFiltersHandler(id, 'all')}/>
+                          callBack={() => allFiltersHandler(todolist.id, 'all')}/>
                 <MyButton className={filter === 'active' ? 'contained' : 'outlined'} name={'active'}
-                          callBack={() => allFiltersHandler(id, 'active')}/>
+                          callBack={() => allFiltersHandler(todolist.id, 'active')}/>
                 <MyButton className={filter === 'completed' ? 'contained' : 'outlined'} name={'completed'}
-                          callBack={() => allFiltersHandler(id, 'completed')}/>
+                          callBack={() => allFiltersHandler(todolist.id, 'completed')}/>
             </div>
         </Box>
     );

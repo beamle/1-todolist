@@ -5,7 +5,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import {AppRootStateType} from "../../store";
 import {useDispatch, useSelector} from "react-redux";
-import {setErrorAC} from "../../app/app-reducer";
+import {setAppErrorAC} from "../../app/app-reducer";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -24,14 +24,14 @@ export function CustomizedSnackbars() {
             return;
         }
 
-        dispatch(setErrorAC(null))
+        dispatch(setAppErrorAC(null))
     };
 
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
             <Snackbar open={isOpen} autoHideDuration={2000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
-                    This is an error message! {error}
+                    {error}
                 </Alert>
             </Snackbar>
         </Stack>

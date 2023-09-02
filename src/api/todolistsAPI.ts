@@ -12,6 +12,11 @@ const instance = axios.create( {
     ...settings
 })
 
+export enum RESULT_CODE {
+    Success = 0,
+    Failed = 1
+}
+
 //apis
 export const todolistsAPI = {
     getTodolists() {
@@ -19,13 +24,13 @@ export const todolistsAPI = {
         return promise;
     },
     createTodolist(title: string) {
-        return instance.post<ResponseType<ItemType>>("todo-lists", {title: title})
+        return instance.post<TodolistResponseType<ItemType>>("todo-lists", {title: title})
     },
     deleteTodolist(todolistId: string) {
-      return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
+      return instance.delete<TodolistResponseType>(`todo-lists/${todolistId}`)
     },
     updateTodolist(todolistId: string, title: string) {
-        return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title: title})
+        return instance.put<TodolistResponseType>(`todo-lists/${todolistId}`, {title: title})
     },
 }
 
@@ -37,7 +42,7 @@ export const tasksApi = {
         return instance.post<TaskResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`,{title})
     },
     deleteTask(todolistId: string, taskId:string){
-        return instance.delete<DeleteTaskResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
+        return instance.delete<TaskResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     updateTask(todolistId: string, taskId:string, model: UpdateTaskModelType) {
         return instance.put<TaskResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
@@ -54,7 +59,7 @@ export type TodolistType = {
 type ItemType = {
     item: TodolistType
 }
-type ResponseType<D = {}> = {
+type TodolistResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
     data: D
@@ -89,15 +94,15 @@ type GetTasksResponseType = {
     totalCount: number
     error: string
 }
-type TaskResponseType<T = {}> = {
+export type TaskResponseType<T = {}> = {
     data: T
-    messages: [string]
+    messages: string[]
     resultCode?: number
 }
 type DeleteTaskResponseType = {
     resultCode: number
     messages: string
-    data: ''
+    data: {}
 }
 export type UpdateTaskModelType = {
     title: string

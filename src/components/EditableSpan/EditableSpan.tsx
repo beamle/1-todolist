@@ -5,9 +5,10 @@ import {Typography} from "@mui/material";
 type EditableSpanProps = {
     title: string
     changeTitleHandler: (title: string) => void
+    disabled: boolean
 }
-export const EditableSpan: FC<EditableSpanProps> = React.memo((props) => {
-    console.log(props.title, 'editablespan is renderd')
+export const EditableSpan: FC<EditableSpanProps> = React.memo((props: EditableSpanProps) => {
+    const {changeTitleHandler, disabled} = props;
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -17,14 +18,14 @@ export const EditableSpan: FC<EditableSpanProps> = React.memo((props) => {
     }
     const activateViewMode = () => {
         setEditMode(false)
-        props.changeTitleHandler(title)
+        changeTitleHandler(title)
     }
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value);
 
 
     return editMode
         ? <TextField margin={"none"} value={title} onBlur={activateViewMode} onChange={onChangeTitleHandler} autoFocus
-                     InputProps={{disableUnderline: true}}
+                     InputProps={{disableUnderline: true}} disabled={disabled}
         />
         : <Typography onDoubleClick={activateEditMode}
                       variant="body2" display="inline"

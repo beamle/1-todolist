@@ -7,8 +7,8 @@ export function useTodolists(onTodolistRemove: (todolistId: string) => void,
                              addEmptyTasksArr: (todolistId: string) => void)
 {
     let [todoLists, setTodoLists] = useState<TodolistDomainType[]>([
-        {id: todoListId1, title: "Todo", addedDate: '', order: 0, filter: "active"},
-        {id: todoListId1, title: "Todo", addedDate: '', order: 1, filter: "completed"}
+        {id: todoListId1, title: "Todo", addedDate: '', order: 0, filter: "active", entityStatus: 'idle'},
+        {id: todoListId1, title: "Todo", addedDate: '', order: 1, filter: "completed", entityStatus: 'idle'}
     ])
 
     // TODOLISTS MANIPULATION
@@ -18,7 +18,7 @@ export function useTodolists(onTodolistRemove: (todolistId: string) => void,
     }
 
     function addTodolist(title: string) {
-        let todolist: TodolistDomainType = {id: v1(), title: title, addedDate: "", order: 0, filter: "all"}
+        let todolist: TodolistDomainType = {id: v1(), title: title, addedDate: "", order: 0, filter: "all", entityStatus: 'idle'}
         setTodoLists([...todoLists, todolist])
         addEmptyTasksArr(todolist.id)
     }
