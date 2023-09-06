@@ -1,11 +1,12 @@
 import { Dispatch } from "redux";
 import {setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "../app/app-reducer";
-import {TaskResponseType, TaskType} from "../api/todolistsAPI";
+import {ResponseType, TaskType} from "../api/todolistsAPI";
 import {AxiosError} from "axios";
 
 // TODO: po4emu nelzja sjuda importitj dispatch, a dolzhny ego prinimatj 4erez parametry?
 
-export const handleServerAppError = <T>(data: TaskResponseType<T>, dispatch: HandleServerErrorsDispatchType) => {
+// if server response was 200 but it has ServerError message instead of data
+export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: HandleServerErrorsDispatchType) => {
     if (data.messages.length) {
         dispatch(setAppErrorAC(data.messages[0]))
     } else {
@@ -14,6 +15,7 @@ export const handleServerAppError = <T>(data: TaskResponseType<T>, dispatch: Han
     dispatch(setAppStatusAC('failed'))
 }
 
+// if there is a network error, throw axiosError
 export const handleServerNetworkError = (err: AxiosError, dispatch: HandleServerErrorsDispatchType) => {
     dispatch(setAppErrorAC(err.message))
     dispatch(setAppStatusAC('failed'))

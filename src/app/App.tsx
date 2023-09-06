@@ -12,6 +12,8 @@ import LinearProgress from "@mui/material/LinearProgress";
 import {AppRootStateType} from "../store";
 import {useSelector} from "react-redux";
 import {RequestStatusType} from "./app-reducer";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { Login } from '../components/Login/Login';
 
 type AppPropsType = {
     demo?: boolean // used for Storybook fetching logic segregation
@@ -22,22 +24,27 @@ function App({demo = false}: AppPropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
     return (
-        <div className="App">
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu open={false}/>
-                    </IconButton>
-                    <Typography variant="h6">News</Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-            </AppBar>
-            {status === 'loading' && <LinearProgress/>}
-            <Container>
-                <ErrorSnackbar/>
-                <TodolistsList demo={demo}/>
-            </Container>
-        </div>
+        <BrowserRouter>
+            <div className="App">
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" aria-label="menu">
+                            <Menu open={false}/>
+                        </IconButton>
+                        <Typography variant="h6">News</Typography>
+                        <Button color="inherit">Login</Button>
+                    </Toolbar>
+                </AppBar>
+                {status === 'loading' && <LinearProgress/>}
+                <Container>
+                    <Routes>
+                        <Route path={"/"} element={<Login/>}/>
+                        <Route path={"/TodolistsList"} element={<TodolistsList demo={demo}/>}/>
+                    </Routes>
+                    <ErrorSnackbar/>
+                </Container>
+            </div>
+        </BrowserRouter>
     );
 }
 

@@ -60,12 +60,10 @@ export const TodolistsList = ({demo = false}: TodolistsList) => {
             <Grid container spacing={1}>
                 {todoLists.map(tl => {
 
-                    return <Grid>
+                    return <Grid key={tl.id}>
                         <Paper>
                             <Todolist key={tl.id}
                                       todolist={tl}
-                                      // id={tl.id}
-                                      // title={tl.title}
                                       allFiltersHandler={allFiltersHandler}
                                       filter={tl.filter}
                                       deleteTodoList={deleteTodoList}
