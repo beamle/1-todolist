@@ -9,21 +9,15 @@ import TextField from '@material-ui/core/TextField';
 import React from 'react';
 import {Form, useFormik} from "formik";
 import {loginTC} from "./login-reducer";
-import {useDispatch} from "react-redux";
-import {useAppDispatch} from "../../store";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "../../store";
+import {LoginParams} from "../../api/authAPI";
+import {Navigate} from "react-router-dom";
 
 export const Login = () => {
     const dispatch = useAppDispatch();
-    // const validate = (values:FormikValuesType) => {
-    //     const errors = {};
-    //     if (!values.email) {
-    //         errors.email = 'Required';
-    //     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    //         errors.email = 'Invalid email address';
-    //     }
-    //
-    //     return errors;
-    // };
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const authenticated = useSelector<AppRootStateType, boolean>(state => state.login.authenticated)
 
     const formik = useFormik({
         initialValues: {
@@ -52,12 +46,15 @@ export const Login = () => {
             }
         },
         onSubmit: values => {
-            logIn(formik.values.email, formik.values.password, formik.values.rememberMe)
+            dispatch(loginTC(values))
         }
     })
 
-    const logIn = (email: string, password: string, rememberMe: boolean) => {
-        dispatch(loginTC(email, password, rememberMe))
+    const logIn = (values: LoginParams) => {
+        dispatch(loginTC(values))
+    }
+    if(authenticated) {
+        return <Navigate to="/"/>
     }
 
     return <Grid container justifyContent={'center'}>
@@ -75,14 +72,14 @@ export const Login = () => {
                         <p>Password: free</p>
                     </FormLabel>
                     <FormGroup>
-                        <TextField label="Email" margin="normal" name="email"
+                        <TextField label="Email" margin="normal" name="email" defaultValue="free@samuraijs.com"
                                    onChange={formik.handleChange}
                                    onBlur={formik.handleBlur}
                         />
                         {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
 
                         <TextField type="password" label="Password"
-                                   margin="normal" name="password"
+                                   margin="normal" name="password" defaultValue="free"
                                    onChange={formik.handleChange}
                                    onBlur={formik.handleBlur}
                         />

@@ -1,27 +1,43 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import Container from '@material-ui/core/Container';
-import {TaskType} from "../api/todolistsAPI";
+import Container from '@mui/material/Container';
 import {TodolistsList} from "../features/TodolistsLists/TodolistsList";
 import {CustomizedSnackbars as ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {AppBar, IconButton, Typography} from "@material-ui/core";
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Menu from "@mui/material/Menu";
+import {Menu} from '@mui/icons-material';
 import Button from "@mui/material/Button";
 import LinearProgress from "@mui/material/LinearProgress";
-import {AppRootStateType} from "../store";
+import {AppRootStateType, useAppDispatch} from "../store";
 import {useSelector} from "react-redux";
 import {RequestStatusType} from "./app-reducer";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import { Login } from '../components/Login/Login';
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {Login} from '../features/Login/Login';
+import {authMeTC} from "../features/Login/login-reducer";
 
 type AppPropsType = {
     demo?: boolean // used for Storybook fetching logic segregation
 }
 
 function App({demo = false}: AppPropsType) {
-    console.log("APP is rerendered")
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const authenticated = useSelector<AppRootStateType, boolean>(state => state.login.authenticated)
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(authMeTC())
+    }, [])
+
+
+
+    console.log(isLoggedIn, 'isloggedin')
+    console.log(authenticated, 'authenticated')
+    // if (isLoggedIn) {
+    //     return <Navigate to="/"/>
+    // }
 
     return (
         <BrowserRouter>
@@ -29,17 +45,18 @@ function App({demo = false}: AppPropsType) {
                 <AppBar position="static">
                     <Toolbar>
                         <IconButton edge="start" color="inherit" aria-label="menu">
-                            <Menu open={false}/>
+                            <Menu />
                         </IconButton>
-                        <Typography variant="h6">News</Typography>
-                        <Button color="inherit">Login</Button>
+                        <Typography variant="h6" sx={{ flexGrow: 1 }}>News</Typography>
+                        <Button color="inherit">{isLoggedIn ? "Logged in" : "Login"}</Button>
                     </Toolbar>
                 </AppBar>
                 {status === 'loading' && <LinearProgress/>}
                 <Container>
+                    {isLoggedIn && <Navigate to="/"/>}
                     <Routes>
-                        <Route path={"/"} element={<Login/>}/>
-                        <Route path={"/TodolistsList"} element={<TodolistsList demo={demo}/>}/>
+                        <Route path={"/login"} element={<Login/>}/>
+                        <Route path={"/"} element={<TodolistsList demo={demo}/>}/>
                     </Routes>
                     <ErrorSnackbar/>
                 </Container>
