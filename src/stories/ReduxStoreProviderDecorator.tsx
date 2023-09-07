@@ -53,7 +53,7 @@ const initialGlobalState: AppRootStateType = {
     },
     login: {
         isLoggedIn: false,
-        authenticated: false
+        isInitialized: false
     }
 };
 

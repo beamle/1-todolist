@@ -15,7 +15,9 @@ import {useSelector} from "react-redux";
 import {RequestStatusType} from "./app-reducer";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Login} from '../features/Login/Login';
-import {authMeTC} from "../features/Login/login-reducer";
+import {authMeTC, logOut} from "../features/Login/login-reducer";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 type AppPropsType = {
     demo?: boolean // used for Storybook fetching logic segregation
@@ -24,23 +26,31 @@ type AppPropsType = {
 function App({demo = false}: AppPropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const authenticated = useSelector<AppRootStateType, boolean>(state => state.login.authenticated)
+    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.login.isInitialized)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        debugger
         dispatch(authMeTC())
     }, [])
 
-
-
+    if(!isLoggedIn) {
+        return <Navigate to="/login"/>
+    }
+    console.log(isInitialized)
+    if(!isInitialized) {
+        return  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh'}}> <CircularProgress size="5rem"/> </Box>
+    }
     console.log(isLoggedIn, 'isloggedin')
-    console.log(authenticated, 'authenticated')
+    console.log(isInitialized, 'isInitialized')
+    console.log(status, 'status')
     // if (isLoggedIn) {
     //     return <Navigate to="/"/>
     // }
 
     return (
         <BrowserRouter>
+            {!isLoggedIn && <Navigate to="/login"/>}
             <div className="App">
                 <AppBar position="static">
                     <Toolbar>
@@ -48,12 +58,11 @@ function App({demo = false}: AppPropsType) {
                             <Menu />
                         </IconButton>
                         <Typography variant="h6" sx={{ flexGrow: 1 }}>News</Typography>
-                        <Button color="inherit">{isLoggedIn ? "Logged in" : "Login"}</Button>
+                        <Button onClick={() => dispatch(logOut())} color="inherit">{isLoggedIn ? "Logout" : "Login"}</Button>
                     </Toolbar>
                 </AppBar>
                 {status === 'loading' && <LinearProgress/>}
                 <Container>
-                    {isLoggedIn && <Navigate to="/"/>}
                     <Routes>
                         <Route path={"/login"} element={<Login/>}/>
                         <Route path={"/"} element={<TodolistsList demo={demo}/>}/>

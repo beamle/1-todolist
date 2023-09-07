@@ -15,6 +15,7 @@ import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksType} from "./Todolist/Task/reducers/tasks-reducer";
 import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
+import {Navigate} from "react-router-dom";
 
 type TodolistsList = {
     demo?: boolean
@@ -23,13 +24,14 @@ type TodolistsList = {
 export const TodolistsList = ({demo = false}: TodolistsList) => {
     const dispatch = useAppDispatch()
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+
+    // const tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
     // const status = useSelector<AppRootStateType, RequestStatusType>(state => state.todolists.)
     // 1 parameter - kakoi globalnyj state, 2 - kakoi state sobiraemsja dostavatj
 
     useEffect(() => {
-        console.log(demo)
-        if (demo) return
+        if (demo || !isLoggedIn) return
         dispatch(fetchTodolistTC())
     }, [])
 
@@ -49,6 +51,10 @@ export const TodolistsList = ({demo = false}: TodolistsList) => {
     const allFiltersHandler = useCallback((todoListId: string, filter: FilterValuesType) => {
         dispatch(changeTodolistFilterAC(todoListId, filter))
     }, [])
+
+    if (!isLoggedIn) {
+        return <Navigate to="/login"/>
+    }
 
     return <>
         <Grid container spacing={1}>

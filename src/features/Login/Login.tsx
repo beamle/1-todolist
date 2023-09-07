@@ -7,9 +7,9 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import React from 'react';
-import {Form, useFormik} from "formik";
+import {useFormik} from "formik";
 import {loginTC} from "./login-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../store";
 import {LoginParams} from "../../api/authAPI";
 import {Navigate} from "react-router-dom";
@@ -17,7 +17,7 @@ import {Navigate} from "react-router-dom";
 export const Login = () => {
     const dispatch = useAppDispatch();
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const authenticated = useSelector<AppRootStateType, boolean>(state => state.login.authenticated)
+    const authenticated = useSelector<AppRootStateType, boolean>(state => state.login.isInitialized)
 
     const formik = useFormik({
         initialValues: {

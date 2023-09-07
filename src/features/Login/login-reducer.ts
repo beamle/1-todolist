@@ -7,7 +7,7 @@ import {AxiosError} from "axios";
 
 let initialState: LoginReducerInitStateType = {
     isLoggedIn: false,
-    authenticated: false
+    isInitialized: false
 
 }
 
@@ -15,22 +15,26 @@ export const loginReducer = (state: LoginReducerInitStateType = initialState, ac
     switch (action.type) {
         case "login/SET-IS-LOGGED-IN":
             return {...state, isLoggedIn: action.value}
-        case "login/SET-AUTH-ME":
-            return {...state, authenticated: action.data.resultCode === RESULT_CODE.Success }
+        case "login/SET-IS-INITIALIZED":
+            return {...state, isInitialized: action.isResultCodeSuccess}
+        // action.data.resultCode === RESULT_CODE.Success
         default:
             return state
     }
 }
 //AC
 const setIsLoggedIn = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
-const setAuthMe = (data: ResponseType) => ({type: 'login/SET-AUTH-ME', data} as const)
+const setIsInitialized = (isResultCodeSuccess: boolean) => ({
+    type: 'login/SET-IS-INITIALIZED',
+    isResultCodeSuccess
+} as const)
 
 //TC
 export const loginTC = (values: LoginParams) => (dispatch: LoginThunkDispatchType) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(values)
         .then(res => {
-            if(res.data.resultCode === RESULT_CODE.Success) {
+            if (res.data.resultCode === RESULT_CODE.Success) {
                 dispatch(setIsLoggedIn(true))
                 dispatch(setAppStatusAC('succeeded'))
             } else {
@@ -42,16 +46,33 @@ export const loginTC = (values: LoginParams) => (dispatch: LoginThunkDispatchTyp
         })
 }
 
-export const authMeTC = () => (dispatch: Dispatch) => {
+export const logOut = () => (dispatch: LoginThunkDispatchType) => {
+    dispatch(setAppStatusAC('loading'))
+    authAPI.logout()
+        .then(res => {
+            if (res.data.resultCode === RESULT_CODE.Success) {
+                dispatch(setIsLoggedIn(false))
+                dispatch(setIsInitialized(false))
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(err, dispatch)
+        })
+}
+
+export const authMeTC = () => (dispatch: LoginThunkDispatchType) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.authMe()
         .then(res => {
-            if(res.data.resultCode === RESULT_CODE.Success) {
-                dispatch(setAuthMe(res.data))
-                dispatch(setAppStatusAC('succeeded'))
+            debugger
+            if (res.data.resultCode === RESULT_CODE.Success) {
                 dispatch(setIsLoggedIn(true))
-            }
-            else {
+                dispatch(setIsInitialized(true))
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
                 handleServerAppError(res.data, dispatch)
             }
         })
@@ -67,9 +88,9 @@ type LoginReducerInitStateType = {
     // rememberMe: string
     // captcha?: string
     isLoggedIn: boolean
-    authenticated: boolean
+    isInitialized: boolean
 }
 
-type LoginActionsType = ReturnType<typeof setIsLoggedIn> | ReturnType<typeof setAuthMe>
+type LoginActionsType = ReturnType<typeof setIsLoggedIn> | ReturnType<typeof setIsInitialized>
 
 type LoginThunkDispatchType = Dispatch<LoginActionsType | SetAppStatusActionType | SetAppErrorActionType>
