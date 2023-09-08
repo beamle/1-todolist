@@ -25,6 +25,7 @@ export const TodolistsList = ({demo = false}: TodolistsList) => {
     const dispatch = useAppDispatch()
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
 
     // const tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
     // const status = useSelector<AppRootStateType, RequestStatusType>(state => state.todolists.)

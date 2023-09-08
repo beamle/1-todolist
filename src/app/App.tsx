@@ -15,7 +15,7 @@ import {useSelector} from "react-redux";
 import {RequestStatusType} from "./app-reducer";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Login} from '../features/Login/Login';
-import {authMeTC, logOut} from "../features/Login/login-reducer";
+import {authMeTC, logOutTC} from "../features/Login/login-reducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
@@ -26,31 +26,22 @@ type AppPropsType = {
 function App({demo = false}: AppPropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.login.isInitialized)
+    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        debugger
         dispatch(authMeTC())
     }, [])
 
-    if(!isLoggedIn) {
-        return <Navigate to="/login"/>
+    const logout = () => {
+        dispatch(logOutTC())
     }
-    console.log(isInitialized)
+
     if(!isInitialized) {
         return  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh'}}> <CircularProgress size="5rem"/> </Box>
     }
-    console.log(isLoggedIn, 'isloggedin')
-    console.log(isInitialized, 'isInitialized')
-    console.log(status, 'status')
-    // if (isLoggedIn) {
-    //     return <Navigate to="/"/>
-    // }
 
     return (
-        <BrowserRouter>
-            {!isLoggedIn && <Navigate to="/login"/>}
             <div className="App">
                 <AppBar position="static">
                     <Toolbar>
@@ -58,7 +49,7 @@ function App({demo = false}: AppPropsType) {
                             <Menu />
                         </IconButton>
                         <Typography variant="h6" sx={{ flexGrow: 1 }}>News</Typography>
-                        <Button onClick={() => dispatch(logOut())} color="inherit">{isLoggedIn ? "Logout" : "Login"}</Button>
+                        <Button onClick={logout} color="inherit">{isLoggedIn && "Logout"}</Button>
                     </Toolbar>
                 </AppBar>
                 {status === 'loading' && <LinearProgress/>}
@@ -70,7 +61,7 @@ function App({demo = false}: AppPropsType) {
                     <ErrorSnackbar/>
                 </Container>
             </div>
-        </BrowserRouter>
+
     );
 }
 

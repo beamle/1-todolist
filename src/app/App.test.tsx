@@ -6,11 +6,13 @@ import {appReducer, RequestStatusType, setAppErrorAC, setAppStatusAC} from "./ap
 type InitialStateType = {
   status: RequestStatusType
   error: string | null
+  isInitialized: false
 }
 
 const startState: InitialStateType = {
   status: "idle",
-  error: null
+  error: null,
+  isInitialized: false
 }
 
 test('App status should be changed', () => {

@@ -16,8 +16,8 @@ export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: HandleS
 }
 
 // if there is a network error, throw axiosError
-export const handleServerNetworkError = (err: AxiosError, dispatch: HandleServerErrorsDispatchType) => {
-    dispatch(setAppErrorAC(err.message))
+export const handleServerNetworkError = (error: { message: string }, dispatch: HandleServerErrorsDispatchType) => {
+    dispatch(setAppErrorAC(error.message ? error.message : 'Some error occurred'))
     dispatch(setAppStatusAC('failed'))
 }
 

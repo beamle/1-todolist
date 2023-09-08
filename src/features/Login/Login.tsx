@@ -13,11 +13,13 @@ import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../store";
 import {LoginParams} from "../../api/authAPI";
 import {Navigate} from "react-router-dom";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const Login = () => {
     const dispatch = useAppDispatch();
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const authenticated = useSelector<AppRootStateType, boolean>(state => state.login.isInitialized)
+
 
     const formik = useFormik({
         initialValues: {
@@ -50,10 +52,8 @@ export const Login = () => {
         }
     })
 
-    const logIn = (values: LoginParams) => {
-        dispatch(loginTC(values))
-    }
-    if(authenticated) {
+
+    if(isLoggedIn) {
         return <Navigate to="/"/>
     }
 
@@ -72,14 +72,14 @@ export const Login = () => {
                         <p>Password: free</p>
                     </FormLabel>
                     <FormGroup>
-                        <TextField label="Email" margin="normal" name="email" defaultValue="free@samuraijs.com"
+                        <TextField label="Email" margin="normal" name="email"
                                    onChange={formik.handleChange}
                                    onBlur={formik.handleBlur}
                         />
                         {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
 
                         <TextField type="password" label="Password"
-                                   margin="normal" name="password" defaultValue="free"
+                                   margin="normal" name="password"
                                    onChange={formik.handleChange}
                                    onBlur={formik.handleBlur}
                         />
