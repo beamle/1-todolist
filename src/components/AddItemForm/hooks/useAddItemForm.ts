@@ -32,7 +32,7 @@ export const useAddItemForm = (addItem: AddItemFunction): AddItemFormReturnType 
         setInputText(e.target.value)
         if (inputText.length > 100) {
             console.log(inputText)
-            dispatch(setAppErrorAC("Length of title should be less than 100"))
+            dispatch(setAppErrorAC({error: "Length of title should be less than 100"}))
             setError(inputText.length.toString())
         }
         else {

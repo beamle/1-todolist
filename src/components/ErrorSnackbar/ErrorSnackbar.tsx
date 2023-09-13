@@ -24,7 +24,7 @@ export function CustomizedSnackbars() {
             return;
         }
 
-        dispatch(setAppErrorAC(null))
+        dispatch(setAppErrorAC({error: null}))
     };
 
     return (
