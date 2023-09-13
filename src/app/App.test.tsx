@@ -16,14 +16,14 @@ const startState: InitialStateType = {
 }
 
 test('App status should be changed', () => {
-  const action = setAppStatusAC('succeeded')
+  const action = setAppStatusAC({status: 'succeeded'})
   const endState = appReducer(startState, action)
   expect(endState.status).toBe('succeeded')
   expect(endState.error).toBe(null)
 });
 
 test('App error should be changed', () => {
-  const action = setAppErrorAC('SOME ERROR')
+  const action = setAppErrorAC({error: 'SOME ERROR'})
   const endState = appReducer(startState, action)
   expect(endState.error).toBe('SOME ERROR')
   expect(endState.status).toBe('idle')

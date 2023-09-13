@@ -31,7 +31,6 @@ const Task = ({task, todolistId}: TaskPropsType) => {
     return (
         <div>
             <IconButton onClick={() => deleteTaskHandler(id)}><Delete/></IconButton>
-            {/*<button onClick={() => deleteTaskHandler(task.id)}>&#10007;</button>*/}
             <MyCheckBox checked={status} callback={changeIsDoneHandler}/>
             <EditableSpan title={title} changeTitleHandler={changeTaskTitleHandler} disabled={false}
             />

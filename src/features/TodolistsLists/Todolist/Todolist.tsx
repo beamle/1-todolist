@@ -63,7 +63,6 @@ export const Todolist = React.memo((props: PropsType) => {
 
     function showTasks() {
         return tasksForTodolist.map(task => {
-
                 return (
                     // <li key={task.id} className={task.isDone ? s.isDone : ''}
                     //     style={{width: '100%', display: 'flex', alignItems: 'center', listStyleType: 'none'}}>

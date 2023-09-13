@@ -16,21 +16,32 @@ let todoListId2 = v1();
 
 const startState: TasksType = {
     [todoListId1]: [
-        {id: v1(), title: "HTML&CSS", status: TaskStatuses.New, description: '', todoListId: todoListId1,
-            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-        {id: v1(), title: "JS", status: TaskStatuses.New, description: '', todoListId: todoListId1,
-            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-        {id: v1(), title: "ReactJS", status: TaskStatuses.New, description: '', todoListId: todoListId1,
-            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}],
+        {
+            id: v1(), title: "HTML&CSS", status: TaskStatuses.New, description: '', todoListId: todoListId1,
+            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+        },
+        {
+            id: v1(), title: "JS", status: TaskStatuses.New, description: '', todoListId: todoListId1,
+            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+        },
+        {
+            id: v1(), title: "ReactJS", status: TaskStatuses.New, description: '', todoListId: todoListId1,
+            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+        }],
     [todoListId2]: [
-        {id: v1(), title: "Angular", status: TaskStatuses.New, description: '', todoListId: todoListId2,
-            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-        {id: v1(), title: "Java", status: TaskStatuses.New, description: '', todoListId: todoListId2,
-            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
-    ]};
+        {
+            id: v1(), title: "Angular", status: TaskStatuses.New, description: '', todoListId: todoListId2,
+            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+        },
+        {
+            id: v1(), title: "Java", status: TaskStatuses.New, description: '', todoListId: todoListId2,
+            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+        }
+    ]
+};
 
 test("task should be deleted from tasks array", () => {
-    const action:DeleteTaskActionType = deleteTaskAC(startState[todoListId1][0].id, todoListId1)
+    const action: DeleteTaskActionType = deleteTaskAC({id: startState[todoListId1][0].id, todolistId: todoListId1})
 
     const endState = tasksReducer(startState, action)
 
@@ -42,7 +53,8 @@ test("task should be deleted from tasks array", () => {
 })
 
 test("tasks isDone status should be changed", () => {
-    const action: UpdateTaskType = updateTaskAC(todoListId1, startState[todoListId1][1].id, {status: TaskStatuses.Completed})
+    const action: UpdateTaskType = updateTaskAC(
+        {id: startState[todoListId1][1].id, todolistId: todoListId1, model: {status: TaskStatuses.Completed}})
     const endState = tasksReducer(startState, action)
 
     expect(endState[todoListId1][1].status === TaskStatuses.Completed).toBeTruthy()
@@ -53,8 +65,10 @@ test("tasks isDone status should be changed", () => {
 test("add new task", () => {
     const title = "newTitle"
     const action: AddTaskType = addTaskAC({
-        id: v1(), title: title, status: TaskStatuses.New, description: '', todoListId: todoListId2,
-        startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+        task: {
+            id: v1(), title: title, status: TaskStatuses.New, description: '', todoListId: todoListId2,
+            startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+        }
     })
     // const action: AddTaskType = {type: "ADD-TASK", todoListId: todoListId2, title}
     const endState = tasksReducer(startState, action)
@@ -68,7 +82,9 @@ test("add new task", () => {
 
 test("change task title", () => {
     const title = "changedTitle"
-    const action: UpdateTaskType = updateTaskAC(todoListId1, startState[todoListId1][0].id, {title})
+    const action: UpdateTaskType = updateTaskAC({
+        id: startState[todoListId1][0].id, todolistId: todoListId1, model: {title}
+    })
     const endState = tasksReducer(startState, action)
 
     expect(endState[todoListId1][0].title).toBe(title)
@@ -82,20 +98,38 @@ test('new array of tasks should be added when new todolist is added', () => {
 
     const startState = {
         [todoListId1]: [
-            {id: v1(), title: "HTML&CSS", status: TaskStatuses.New, description: '', todoListId: "2",
-                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-            {id: v1(), title: "JS", status: TaskStatuses.New, description: '', todoListId: "2",
-                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-            {id: v1(), title: "ReactJS", status: TaskStatuses.New, description: '', todoListId: "2",
-                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}],
+            {
+                id: v1(), title: "HTML&CSS", status: TaskStatuses.New, description: '', todoListId: "2",
+                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+            },
+            {
+                id: v1(), title: "JS", status: TaskStatuses.New, description: '', todoListId: "2",
+                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+            },
+            {
+                id: v1(), title: "ReactJS", status: TaskStatuses.New, description: '', todoListId: "2",
+                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+            }],
         [todoListId2]: [
-            {id: v1(), title: "Angular", status: TaskStatuses.New, description: '', todoListId: "2",
-                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-            {id: v1(), title: "Java", status: TaskStatuses.New, description: '', todoListId: "2",
-                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
-        ]};
+            {
+                id: v1(), title: "Angular", status: TaskStatuses.New, description: '', todoListId: "2",
+                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+            },
+            {
+                id: v1(), title: "Java", status: TaskStatuses.New, description: '', todoListId: "2",
+                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
+            }
+        ]
+    };
 
-    const action: AddTodolistActionType = addTodolistAC({id: v1(), title: "action.todolist.title", addedDate: '', order: 0});
+    const action: AddTodolistActionType = addTodolistAC({
+        todolist: {
+            id: v1(),
+            title: "action.todolist.title",
+            addedDate: '',
+            order: 0
+        }
+    });
 
     const endState = tasksReducer(startState, action)
 
@@ -114,10 +148,12 @@ test('empty array  should be added when new todolist is created', () => {
     let todoListId1 = v1();
     let todoListId2 = v1();
 
-    const action = setTodolistsAC([
-        {id: todoListId1, title: "title 1" , order: 0, addedDate: ''},
-        {id: todoListId2, title: "title 2" , order: 1, addedDate: ''}
-    ])
+    const action = setTodolistsAC({
+        todolists: [
+            {id: todoListId1, title: "title 1", order: 0, addedDate: ''},
+            {id: todoListId2, title: "title 2", order: 1, addedDate: ''}
+        ]
+    })
 
     const endState = tasksReducer({}, action)
     const keys = Object.keys(endState)
@@ -130,7 +166,7 @@ test('empty array  should be added when new todolist is created', () => {
 })
 
 test('tasks should be added to todolist', () => {
-    const action = setTasksAC(startState[todoListId1], todoListId1)
+    const action = setTasksAC({tasks: startState[todoListId1], todolistId: todoListId1})
     const endState = tasksReducer({
         todoListId1: [],
         'todoListId2': []

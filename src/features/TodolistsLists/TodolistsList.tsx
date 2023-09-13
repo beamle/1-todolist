@@ -50,7 +50,7 @@ export const TodolistsList = ({demo = false}: TodolistsList) => {
     }, [])
 
     const allFiltersHandler = useCallback((todoListId: string, filter: FilterValuesType) => {
-        dispatch(changeTodolistFilterAC(todoListId, filter))
+        dispatch(changeTodolistFilterAC({todoListId, filter}))
     }, [])
 
     if (!isLoggedIn) {
