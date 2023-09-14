@@ -1,12 +1,10 @@
 import {v1} from "uuid";
 import {
     addTaskAC,
-    AddTaskType,
     deleteTaskAC,
-    DeleteTaskActionType,
     setTasksAC,
     tasksReducer, TasksType,
-    updateTaskAC, UpdateTaskType
+    updateTaskAC
 } from "./tasks-reducer";
 import {addTodolistAC, AddTodolistActionType, setTodolistsAC} from "../../reducers/todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../../../../../api/todolistsAPI";
@@ -41,7 +39,7 @@ const startState: TasksType = {
 };
 
 test("task should be deleted from tasks array", () => {
-    const action: DeleteTaskActionType = deleteTaskAC({id: startState[todoListId1][0].id, todolistId: todoListId1})
+    const action = deleteTaskAC({id: startState[todoListId1][0].id, todolistId: todoListId1})
 
     const endState = tasksReducer(startState, action)
 
@@ -53,7 +51,7 @@ test("task should be deleted from tasks array", () => {
 })
 
 test("tasks isDone status should be changed", () => {
-    const action: UpdateTaskType = updateTaskAC(
+    const action = updateTaskAC(
         {id: startState[todoListId1][1].id, todolistId: todoListId1, model: {status: TaskStatuses.Completed}})
     const endState = tasksReducer(startState, action)
 
@@ -64,7 +62,7 @@ test("tasks isDone status should be changed", () => {
 
 test("add new task", () => {
     const title = "newTitle"
-    const action: AddTaskType = addTaskAC({
+    const action = addTaskAC({
         task: {
             id: v1(), title: title, status: TaskStatuses.New, description: '', todoListId: todoListId2,
             startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
@@ -82,7 +80,7 @@ test("add new task", () => {
 
 test("change task title", () => {
     const title = "changedTitle"
-    const action: UpdateTaskType = updateTaskAC({
+    const action = updateTaskAC({
         id: startState[todoListId1][0].id, todolistId: todoListId1, model: {title}
     })
     const endState = tasksReducer(startState, action)

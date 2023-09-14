@@ -3,7 +3,8 @@ import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC, setTodolistEntityStatusAC,
+    removeTodolistAC,
+    setTodolistEntityStatusAC,
     setTodolistsAC,
     TodolistDomainType,
     todolistsReducer

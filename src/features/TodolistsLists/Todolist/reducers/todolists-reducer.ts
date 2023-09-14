@@ -7,7 +7,8 @@ import {
     setAppStatusAC,
 } from "../../../../app/app-reducer";
 import {handleServerNetworkError} from "../../../../utils/error-utitls";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, current, PayloadAction} from "@reduxjs/toolkit";
+import {clearTasksAndTodolists} from "../../../../common/actions/common-actions";
 
 const initialState: TodolistDomainType[] = [];
 
@@ -44,7 +45,15 @@ const slice = createSlice({
             if(index > -1 ){
                 state[index].entityStatus = action.payload.status
             }
-        }
+        },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(clearTasksAndTodolists, (state, action) => {
+                // to see current state:
+                // console.log(current(state))
+                return action.payload.todolists
+            })
     }
 })
 
@@ -55,7 +64,7 @@ export const {
     changeTodolistTitleAC,
     changeTodolistFilterAC,
     setTodolistsAC,
-    setTodolistEntityStatusAC
+    setTodolistEntityStatusAC,
 } = slice.actions;
 
 

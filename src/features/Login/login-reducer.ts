@@ -5,6 +5,7 @@ import {RESULT_CODE} from "../../api/todolistsAPI";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utitls";
 import {AxiosError} from "axios";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {clearTasksAndTodolists} from "../../common/actions/common-actions";
 
 let initialState = {
     isLoggedIn: false,
@@ -58,6 +59,7 @@ export const logOutTC = () => (dispatch: Dispatch) => {
         .then(res => {
             if (res.data.resultCode === RESULT_CODE.Success) {
                 dispatch(setIsLoggedIn({value: false}))
+                dispatch(clearTasksAndTodolists({}, []))
                 dispatch(setAppStatusAC({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
