@@ -1,13 +1,8 @@
-import {v1} from "uuid";
 import {RESULT_CODE, todolistsAPI, TodolistType} from "../../../../api/todolistsAPI";
 import {Dispatch} from "redux";
-import {
-    RequestStatusType,
-    setAppErrorAC,
-    setAppStatusAC,
-} from "../../../../app/app-reducer";
+import {RequestStatusType, setAppErrorAC, setAppStatusAC,} from "../../../../app/app-reducer";
 import {handleServerNetworkError} from "../../../../utils/error-utitls";
-import {createSlice, current, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../../../common/actions/common-actions";
 
 const initialState: TodolistDomainType[] = [];
@@ -52,10 +47,11 @@ const slice = createSlice({
             .addCase(clearTasksAndTodolists, (state, action) => {
                 // to see current state:
                 // console.log(current(state))
-                return action.payload.todolists
+                return []
             })
     }
 })
+
 
 export const todolistsReducer = slice.reducer;
 export const {

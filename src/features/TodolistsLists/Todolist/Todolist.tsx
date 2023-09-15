@@ -9,12 +9,9 @@ import {useSelector} from "react-redux";
 import Task from "./Task/Task";
 import {AppRootStateType, useAppDispatch} from "../../../store";
 import {FilterValuesType, TodolistDomainType} from "./reducers/todolists-reducer";
-import {TaskStatuses, TaskType, TodolistType} from "../../../api/todolistsAPI";
-import {RequestStatusType} from "../../../app/app-reducer";
+import {TaskStatuses, TaskType} from "../../../api/todolistsAPI";
 
 type PropsType = {
-    // id: string
-    // title: string
     todolist: TodolistDomainType
     changeTodolistTitleHandler: (title: string, todolistId: string) => void
     allFiltersHandler: (todoListId: string, filter: FilterValuesType) => void
@@ -23,12 +20,6 @@ type PropsType = {
     addTodoList?: () => void
     demo?: boolean
 }
-
-// export type TaskType = {
-//     id: string,
-//     title: string,
-//     isDone: boolean
-// }
 
 export const Todolist = React.memo((props: PropsType) => {
     console.log('Todolist rendered')
@@ -95,12 +86,3 @@ export const Todolist = React.memo((props: PropsType) => {
         </Box>
     );
 });
-
-
-
-{/*<button className={filter === 'all' ? s.activeFilter : ''} name={'all'} onClick={() => allFiltersHandler('all')}>All</button>*/
-}
-{/*<button className={filter === 'active' ? s.activeFilter : ''} name={'active'} onClick={() => allFiltersHandler('active')}>Active</button>*/
-}
-{/*<button className={filter === 'completed' ? s.activeFilter : ''} name={'completed'} onClick={() => allFiltersHandler('completed')}>Completed</button>*/
-}

@@ -11,10 +11,7 @@ import {useFormik} from "formik";
 import {loginTC} from "./login-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../store";
-import {LoginParams} from "../../api/authAPI";
 import {Navigate} from "react-router-dom";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
 
 export const Login = () => {
     const dispatch = useAppDispatch();

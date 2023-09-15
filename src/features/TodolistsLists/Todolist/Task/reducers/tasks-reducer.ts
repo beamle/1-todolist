@@ -13,7 +13,7 @@ import {setAppStatusAC} from "../../../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../../../utils/error-utitls";
 import axios, {AxiosError} from "axios";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {clearTasksAndTodolists, ClearTasksAndTodolistsType} from "../../../../../common/actions/common-actions";
+import {clearTasksAndTodolists} from "../../../../../common/actions/common-actions";
 
 const initialState: TasksType = {};
 
@@ -58,7 +58,7 @@ const slice = createSlice({
         //     return action.payload.tasks
         // })
         builder.addCase(clearTasksAndTodolists, (state, action) => {
-            return action.payload.tasks
+            return {}
         })
     }
 })
