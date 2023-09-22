@@ -17,6 +17,7 @@ import {authMeTC, logOutTC} from "../features/Login/login-reducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import {isInitializedSelector, isLoggedInSelector, statusSelector} from "./app.selectors";
+import {useSelector} from "react-redux";
 
 type AppPropsType = {
     demo?: boolean // used for Storybook fetching logic segregation
@@ -24,6 +25,9 @@ type AppPropsType = {
 
 function App({demo = false}: AppPropsType) {
     const dispatch = useAppDispatch();
+    const status = useSelector(statusSelector)
+    const isLoggedIn = useSelector(isLoggedInSelector)
+    const isInitialized = useSelector(isInitializedSelector)
 
     useEffect(() => {
         dispatch(authMeTC())
@@ -33,7 +37,7 @@ function App({demo = false}: AppPropsType) {
         dispatch(logOutTC())
     }
 
-    if(!isInitializedSelector) {
+    if(!isInitialized) {
         return  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh'}}> <CircularProgress size="5rem"/> </Box>
     }
 
@@ -45,10 +49,10 @@ function App({demo = false}: AppPropsType) {
                             <Menu />
                         </IconButton>
                         <Typography variant="h6" sx={{ flexGrow: 1 }}>News</Typography>
-                        <Button onClick={logout} color="inherit">{isLoggedInSelector && "Logout"}</Button>
+                        <Button onClick={logout} color="inherit">{isLoggedIn && "Logout"}</Button>
                     </Toolbar>
                 </AppBar>
-                {statusSelector === 'loading' && <LinearProgress/>}
+                {status === 'loading' && <LinearProgress/>}
                 <Container>
                     <Routes>
                         <Route path={"/login"} element={<Login/>}/>
