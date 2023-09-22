@@ -8,15 +8,3 @@ export type ClearTasksAndTodolistsType = {
 }
 
 export const clearTasksAndTodolists = createAction('common/clear-tasks-todolists')
-
-// export const clearTasksAndTodolists = createAction('common/clear-tasks-todolists',
-//     (tasks: TasksType, todolists: TodolistDomainType[]) => {
-//         //add logic if necessary
-//         return {
-//             payload: {
-//                 tasks,
-//                 todolists
-//             }
-//         }
-//     }
-// )

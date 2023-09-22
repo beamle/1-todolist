@@ -10,23 +10,19 @@ import Toolbar from '@mui/material/Toolbar';
 import {Menu} from '@mui/icons-material';
 import Button from "@mui/material/Button";
 import LinearProgress from "@mui/material/LinearProgress";
-import {AppRootStateType, useAppDispatch} from "../store";
-import {useSelector} from "react-redux";
-import {RequestStatusType} from "./app-reducer";
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {useAppDispatch} from "../store";
+import {Route, Routes} from "react-router-dom";
 import {Login} from '../features/Login/Login';
 import {authMeTC, logOutTC} from "../features/Login/login-reducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import {isInitializedSelector, isLoggedInSelector, statusSelector} from "./app.selectors";
 
 type AppPropsType = {
     demo?: boolean // used for Storybook fetching logic segregation
 }
 
 function App({demo = false}: AppPropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -37,7 +33,7 @@ function App({demo = false}: AppPropsType) {
         dispatch(logOutTC())
     }
 
-    if(!isInitialized) {
+    if(!isInitializedSelector) {
         return  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh'}}> <CircularProgress size="5rem"/> </Box>
     }
 
@@ -49,10 +45,10 @@ function App({demo = false}: AppPropsType) {
                             <Menu />
                         </IconButton>
                         <Typography variant="h6" sx={{ flexGrow: 1 }}>News</Typography>
-                        <Button onClick={logout} color="inherit">{isLoggedIn && "Logout"}</Button>
+                        <Button onClick={logout} color="inherit">{isLoggedInSelector && "Logout"}</Button>
                     </Toolbar>
                 </AppBar>
-                {status === 'loading' && <LinearProgress/>}
+                {statusSelector === 'loading' && <LinearProgress/>}
                 <Container>
                     <Routes>
                         <Route path={"/login"} element={<Login/>}/>
