@@ -1,6 +1,6 @@
 import {ChangeEvent, useState} from "react";
 import {useDispatch} from "react-redux";
-import {setAppErrorAC} from "../../../app/app-reducer";
+import {setAppErrorAC} from "../../../../app/app-reducer";
 
 type AddItemFunction = (title: string) => void;
 

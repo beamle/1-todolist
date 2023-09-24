@@ -1,7 +1,7 @@
 import {addTodolistAC, removeTodolistAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
 import {tasksReducer, TasksType} from "../Task/reducers/tasks-reducer";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses} from "../../../../api/todolistsAPI";
+import {TaskPriorities, TaskStatuses} from "../Task/tasksAPI";
 
 test('todolist and tasks arr should be added', () => {
     const startTasksState: TasksType = {};

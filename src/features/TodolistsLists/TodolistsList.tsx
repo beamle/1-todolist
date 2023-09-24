@@ -1,4 +1,4 @@
-import {AppRootStateType, useAppDispatch} from "../../store";
+import {AppRootStateType, useAppDispatch} from "../../app/store";
 import {useSelector} from "react-redux";
 import {
     changeTodolistFilterAC,
@@ -11,7 +11,7 @@ import {
 } from "./Todolist/reducers/todolists-reducer";
 import React, {useCallback, useEffect} from "react";
 import {Box, Grid, Paper} from "@mui/material";
-import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
+import {AddItemForm} from "../../common/components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksType} from "./Todolist/Task/reducers/tasks-reducer";
 import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";

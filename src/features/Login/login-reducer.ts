@@ -1,11 +1,11 @@
 import {Dispatch} from "redux";
-import {authAPI, LoginParams} from "../../api/authAPI";
+import {authAPI, LoginParams} from "./authAPI";
 import {setAppStatusAC, setIsInitializedAC} from "../../app/app-reducer";
-import {RESULT_CODE} from "../../api/todolistsAPI";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utitls";
+import {handleServerAppError, handleServerNetworkError} from "../../common/utils/error-utitls";
 import {AxiosError} from "axios";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../common/actions/common-actions";
+import { RESULT_CODE } from "../../common/enums/enums";
 
 let initialState = {
     isLoggedIn: false,

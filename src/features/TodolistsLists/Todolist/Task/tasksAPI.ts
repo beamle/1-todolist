@@ -1,38 +1,5 @@
-import axios from "axios";
+import { instance } from "../../../../api"
 
-const settings = {
-    withCredentials: true,
-    headers: {
-        "API-KEY": "7b095462-668f-44a3-9dd6-fc6dd090e3f3"
-    }
-}
-
-const instance = axios.create( {
-    baseURL: "https://social-network.samuraijs.com/api/1.1/",
-    ...settings
-})
-
-export enum RESULT_CODE {
-    Success = 0,
-    Failed = 1
-}
-
-//apis
-export const todolistsAPI = {
-    getTodolists() {
-        let promise = instance.get<Array<TodolistType>>("todo-lists") // here typization shows what we return
-        return promise;
-    },
-    createTodolist(title: string) {
-        return instance.post<TodolistResponseType<ItemType>>("todo-lists", {title: title})
-    },
-    deleteTodolist(todolistId: string) {
-      return instance.delete<TodolistResponseType>(`todo-lists/${todolistId}`)
-    },
-    updateTodolist(todolistId: string, title: string) {
-        return instance.put<TodolistResponseType>(`todo-lists/${todolistId}`, {title: title})
-    },
-}
 
 export const tasksApi = {
     getTasks(todolistId: string){
@@ -49,21 +16,6 @@ export const tasksApi = {
     }
 }
 
-// types
-export type TodolistType = {
-    id: string
-    title: string
-    addedDate: string
-    order: number
-}
-type ItemType = {
-    item: TodolistType
-}
-type TodolistResponseType<D = {}> = {
-    resultCode: number
-    messages: Array<string>
-    data: D
-}
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
@@ -77,6 +29,7 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
+
 export type TaskType = {
     description: string
     title: string
@@ -111,10 +64,4 @@ export type UpdateTaskModelType = {
     priority: TaskPriorities
     startDate: string
     deadline: string
-}
-
-export type ResponseType<T = {}> = {
-    data: T
-    messages: string[]
-    resultCode?: number
 }

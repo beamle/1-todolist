@@ -1,11 +1,11 @@
 import React, {ChangeEvent, FC, useState} from 'react';
-import s from "../../features/TodolistsLists/Todolist/Todolist.module.css";
+import s from "../../../features/TodolistsLists/Todolist/Todolist.module.css";
 import MyButton from "@material-ui/core/Button";
 import {IconButton, TextField} from "@material-ui/core";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import Grid from "@mui/material/Grid";
 import {useAddItemForm} from "./hooks/useAddItemForm";
-import {RequestStatusType} from "../../app/app-reducer";
+import {RequestStatusType} from "../../../app/app-reducer";
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void

@@ -1,19 +1,13 @@
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "../../reducers/todolists-reducer";
-import {
-    RESULT_CODE,
-    TaskPriorities,
-    tasksApi,
-    TaskStatuses,
-    TaskType,
-    UpdateTaskModelType
-} from "../../../../../api/todolistsAPI";
 import {Dispatch} from "redux";
-import {AppRootStateType} from "../../../../../store";
+import {AppRootStateType} from "../../../../../app/store";
 import {setAppStatusAC} from "../../../../../app/app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../../../../../utils/error-utitls";
+import {handleServerAppError, handleServerNetworkError} from "../../../../../common/utils/error-utitls";
 import axios, {AxiosError} from "axios";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../../../../common/actions/common-actions";
+import {TaskPriorities, tasksApi, TaskStatuses, TaskType, UpdateTaskModelType} from "../tasksAPI";
+import {RESULT_CODE} from "../../../../../common/enums/enums";
 
 const initialState: TasksType = {};
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ResponseType } from "./todolistsAPI";
+import { ResponseType } from "../../common/types/common-types";
 
 const settings = {
     withCredentials: true,

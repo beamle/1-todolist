@@ -7,7 +7,7 @@ import {
     updateTaskAC
 } from "./tasks-reducer";
 import {addTodolistAC, AddTodolistActionType, setTodolistsAC} from "../../reducers/todolists-reducer";
-import {TaskPriorities, TaskStatuses} from "../../../../../api/todolistsAPI";
+import {TaskPriorities, TaskStatuses } from "../tasksAPI";
 
 let todoListId1 = v1();
 let todoListId2 = v1();
@@ -72,9 +72,9 @@ test("add new task", () => {
     const endState = tasksReducer(startState, action)
 
     expect(endState[todoListId2].length).toBe(3)
-    expect(endState[todoListId2][2]).toBeDefined();
+    expect(endState[todoListId2][0]).toBeDefined();
     expect(endState[todoListId1].length).toBe(3)
-    expect(endState[todoListId2][2].title).toBe(title)
+    expect(endState[todoListId2][0].title).toBe(title)
     expect(endState[todoListId2][2].status === TaskStatuses.Completed).toBe(false)
 })
 

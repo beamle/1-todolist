@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../store";
+import {AppRootStateType} from "./store";
 import {RequestStatusType} from "./app-reducer";
 
 // We keep all selectors in the separateFile. If at one point we will decide the naming of the selector

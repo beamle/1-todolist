@@ -1,9 +1,10 @@
-import {RESULT_CODE, todolistsAPI, TodolistType} from "../../../../api/todolistsAPI";
+import { todolistsAPI, TodolistType} from "../todolistsAPI";
 import {Dispatch} from "redux";
 import {RequestStatusType, setAppErrorAC, setAppStatusAC,} from "../../../../app/app-reducer";
-import {handleServerNetworkError} from "../../../../utils/error-utitls";
+import {handleServerNetworkError} from "../../../../common/utils/error-utitls";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../../../common/actions/common-actions";
+import { RESULT_CODE } from "../../../../common/enums/enums";
 
 const initialState: TodolistDomainType[] = [];
 

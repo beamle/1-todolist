@@ -1,7 +1,8 @@
 import { Dispatch } from "redux";
-import {setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
-import {ResponseType, TaskType} from "../api/todolistsAPI";
+import {setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
 import {AxiosError} from "axios";
+import { ResponseType } from "../types/common-types";
+
 
 
 // if server response was 200 but it has ServerError message instead of data

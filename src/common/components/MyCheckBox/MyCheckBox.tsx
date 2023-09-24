@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import Checkbox from '@mui/material/Checkbox';
-import {TaskStatuses} from "../../api/todolistsAPI";
+import {TaskStatuses} from "../../../features/TodolistsLists/Todolist/Task/tasksAPI";
 
 
 type InputTypeProps = {

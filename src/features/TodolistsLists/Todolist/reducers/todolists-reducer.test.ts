@@ -39,7 +39,7 @@ test("add new todolist", () => {
     const endState = todolistsReducer(startState, addTodolistAC({todolist: {id: v1(), title: newTitle, addedDate: '', order: 0} }))
 
     expect(endState.length).toBe(3)
-    expect(endState[2].title ).toBe(newTitle)
+    expect(endState[0].title ).toBe(newTitle)
     // expect(endState[2].filter ).toBe('all')
 
 })

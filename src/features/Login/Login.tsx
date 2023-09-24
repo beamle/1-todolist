@@ -10,7 +10,7 @@ import React from 'react';
 import {useFormik} from "formik";
 import {loginTC} from "./login-reducer";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "../../store";
+import {AppRootStateType, useAppDispatch} from "../../app/store";
 import {Navigate} from "react-router-dom";
 
 export const Login = () => {
