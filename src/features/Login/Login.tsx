@@ -7,11 +7,20 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import React from 'react';
-import {useFormik} from "formik";
+import {FormikHelpers, useFormik} from "formik";
 import {loginTC} from "./login-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../app/store";
 import {Navigate} from "react-router-dom";
+
+type FormValuesType = {
+    email: string,
+    password: string,
+    rememberMe: boolean
+}
+type errorType = {
+    error: {message: string}
+}
 
 export const Login = () => {
     const dispatch = useAppDispatch();
@@ -44,8 +53,21 @@ export const Login = () => {
                 }
             }
         },
-        onSubmit: values => {
-            dispatch(loginTC(values))
+        onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
+            // Even thought it's UI component we dispatch BLL's loginTC and analyzing reponse here instead of BLL.
+            // Since BLL has it's own logic related to loginization, but here we want to use this data for showing errors
+            // Instead of creating additional loginErrors state property we analyze the answer from server.
+            const action = await dispatch(loginTC(values))
+            console.log(action)
+            debugger
+            if (loginTC.rejected.match(action)) {
+                debugger
+                if (action.payload?.error.length){
+                    debugger
+                    const error = action.payload?.error[0]
+                    formikHelpers.setFieldError("email", error)
+                }
+            }
         }
     })
 

@@ -1,8 +1,7 @@
 import {v1} from "uuid";
 import {
     addTaskAC,
-    deleteTaskAC,
-    setTasksAC,
+    deleteTaskAC, fetchTasksTC,
     tasksReducer, TasksType,
     updateTaskAC
 } from "./tasks-reducer";
@@ -164,7 +163,8 @@ test('empty array  should be added when new todolist is created', () => {
 })
 
 test('tasks should be added to todolist', () => {
-    const action = setTasksAC({tasks: startState[todoListId1], todolistId: todoListId1})
+    const action = fetchTasksTC.fulfilled({tasks: startState[todoListId1], todolistId: todoListId1}, "requestId", todoListId1)
+        //fulfilled is action creator at this moment
     const endState = tasksReducer({
         todoListId1: [],
         'todoListId2': []

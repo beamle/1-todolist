@@ -1,4 +1,4 @@
-import {AnyAction, combineReducers} from "redux";
+import {AnyAction, combineReducers, Dispatch} from "redux";
 import {tasksReducer} from "../features/TodolistsLists/Todolist/Task/reducers/tasks-reducer";
 import {todolistsReducer} from "../features/TodolistsLists/Todolist/reducers/todolists-reducer";
 import thunkMiddleware, {ThunkDispatch} from "redux-thunk";
@@ -20,6 +20,17 @@ export const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware)
 })
+
+export type AsyncThunkConfigType<RejValue = unknown> = {
+    state: AppRootStateType
+    dispatch?: Dispatch
+    extra?: unknown
+    rejectValue?: RejValue
+    serializedErrorType?: unknown
+    pendingMeta?: unknown
+    fulfilledMeta?: unknown
+    rejectedMeta?: unknown
+}
 
 type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
 
