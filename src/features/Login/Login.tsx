@@ -12,6 +12,7 @@ import {loginTC} from "./login-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../app/store";
 import {Navigate} from "react-router-dom";
+import {appSelectors} from "../../app";
 
 type FormValuesType = {
     email: string,
@@ -24,7 +25,7 @@ type errorType = {
 
 export const Login = () => {
     const dispatch = useAppDispatch();
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const isLoggedIn = useSelector(appSelectors.isLoggedInSelector)
 
 
     const formik = useFormik({

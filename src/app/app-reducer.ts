@@ -1,4 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {authAPI} from "../features/Login/authAPI";
+import {RESULT_CODE} from "../common/enums";
 
 
 const initialState: InitialStateType = {
@@ -9,7 +11,11 @@ const initialState: InitialStateType = {
 
 const slice = createSlice({
     name: 'app',
-    initialState: initialState,
+    initialState: {
+        status: "idle",
+        error: null,
+        isInitialized: false
+    } as InitialStateType,
     reducers: {
         setAppStatusAC(state, action: PayloadAction<{status: RequestStatusType}>) {
             state.status = action.payload.status
@@ -20,11 +26,42 @@ const slice = createSlice({
         setIsInitializedAC(state, action: PayloadAction<{isInitialized: boolean}>) {
             state.isInitialized = action.payload.isInitialized
         }
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(authMeTC.fulfilled, (state, action) => {
+                state.isInitialized = true;
+            })
     }
 })
 
 export const appReducer = slice.reducer
 export const {setAppStatusAC, setAppErrorAC, setIsInitializedAC} = slice.actions // actions = actionCreators
+
+// TC
+
+export const authMeTC = createAsyncThunk("login/authMeTC",  async (_, thunkAPI) => {
+    const {dispatch, rejectWithValue } = thunkAPI;
+    dispatch(setAppStatusAC({status: 'loading'}))
+    const res = await authAPI.authMe();
+    // try{
+        if (res.data.resultCode === RESULT_CODE.Success) {
+            dispatch(setAppStatusAC({status: 'succeeded'}))
+            return; // return without anything still means authMeTC.fulfilled and not .rejected
+        } else {
+    //         handleServerAppError(res.data, dispatch)
+    //         dispatch(setIsInitializedAC({isInitialized: true}))
+    //         return;
+        }
+    // }
+    // catch(err: any) {
+    //     const error: AxiosError = err;
+    //     handleServerNetworkError(error as { message: string }, dispatch)
+    //     dispatch(setIsInitializedAC({isInitialized: true}))
+    //     return rejectWithValue({error: [error.message], fieldsErrors: undefined})
+    // }
+})
+
 
 // types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -34,26 +71,3 @@ type InitialStateType = {
     error: string | null
     isInitialized: boolean
 }
-
-
-// export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-//     switch (action.type) {
-//         case 'APP/SET-STATUS':
-//             return {...state, status: action.status}
-//         case 'APP/SET-ERROR':
-//             return {...state, error: action.error}
-//         case "login/SET-IS-INITIALIZED":
-//             return {...state, isInitialized: action.isInitialized}
-//         default:
-//             return state
-//     }
-// }
-
-// export const setAppStatusAC = (status: RequestStatusType) => ({type: "APP/SET-STATUS" , status} as const)
-// export const setAppErrorAC = (error: string | null) => ({type: "APP/SET-ERROR" , error} as const)
-// export const setIsInitializedAC = (isInitialized: boolean) => ({type: 'login/SET-IS-INITIALIZED', isInitialized} as const)
-//
-// export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>;
-// export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>;
-// export type SetAppIsInitialized = ReturnType<typeof setIsInitializedAC>;
-// type ActionsType = SetAppErrorActionType | SetAppStatusActionType | SetAppIsInitialized

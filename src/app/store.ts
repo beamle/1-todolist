@@ -1,4 +1,4 @@
-import {AnyAction, combineReducers, Dispatch} from "redux";
+import {ActionCreatorsMapObject, AnyAction, bindActionCreators, combineReducers, Dispatch} from "redux";
 import {tasksReducer} from "../features/TodolistsLists/Todolist/Task/reducers/tasks-reducer";
 import {todolistsReducer} from "../features/TodolistsLists/Todolist/reducers/todolists-reducer";
 import thunkMiddleware, {ThunkDispatch} from "redux-thunk";
@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 import {appReducer} from "./app-reducer";
 import {loginReducer} from "../features/Login/login-reducer";
 import {configureStore} from "@reduxjs/toolkit";
+import {useMemo} from "react";
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
@@ -21,7 +22,7 @@ export const store = configureStore({
     middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware)
 })
 
-export type AsyncThunkConfigType<RejValue = unknown> = {
+export type AppAsyncThunkConfigType<RejValue = unknown> = {
     state: AppRootStateType
     dispatch?: Dispatch
     extra?: unknown
@@ -38,3 +39,13 @@ export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
 
 // @ts-ignore
 window.store = store;
+
+export function useActions<T extends ActionCreatorsMapObject<any>>(actions: T) {
+    const dispatch = useAppDispatch()
+
+    const boundActions = useMemo(() => {
+        return bindActionCreators(actions, dispatch)
+    }, [])
+
+    return boundActions
+}

@@ -1,13 +1,14 @@
-import {addTodolistAC, removeTodolistAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
+import {TodolistDomainType, todolistsReducer} from "./todolists-reducer";
 import {tasksReducer, TasksType} from "../Task/reducers/tasks-reducer";
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses} from "../Task/tasksAPI";
+import {createTodolistTC, deleteTodolistTC} from "../todolist-actions";
 
 test('todolist and tasks arr should be added', () => {
     const startTasksState: TasksType = {};
     const startTodolistsState: TodolistDomainType[] = [];
 
-    const action = addTodolistAC({todolist: {id: v1(), title: "action.todolist.title", addedDate: '', order: 0}}) //todoListId, title, type: ADD-TODOLIST
+    const action = createTodolistTC.fulfilled({todolist: {id: v1(), title: "action.todolist.title", addedDate: '', order: 0}}, "requestId", "title") //todoListId, title, type: ADD-TODOLIST
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)
@@ -94,7 +95,7 @@ test('todolist and tasks arr should be erased', () => {
         ],
     };
 
-    const action = removeTodolistAC({todolistId: todoListId1})
+    const action = deleteTodolistTC.fulfilled({todolistId: todoListId1}, "requestId", todoListId1)
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)
 
