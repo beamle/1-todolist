@@ -12,13 +12,12 @@ import Button from "@mui/material/Button";
 import LinearProgress from "@mui/material/LinearProgress";
 import {useAppDispatch} from "./store";
 import {Route, Routes} from "react-router-dom";
-import {Login} from '../features/Login/Login';
+import {Login} from '../features/Login';
 import {logOutTC} from "../features/Login/login-reducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import {useSelector} from "react-redux";
-import {authMeTC} from "./app-reducer";
-import {appSelectors} from "./index";
+import {asyncActions} from "./app-reducer";
 import {isInitializedSelector, isLoggedInSelector, statusSelector} from "./app.selectors";
 
 type AppPropsType = {
@@ -32,7 +31,7 @@ function App({demo = false}: AppPropsType) {
     const isInitialized = useSelector(isInitializedSelector)
 
     useEffect(() => {
-        dispatch(authMeTC())
+        dispatch(asyncActions.authMeTC())
     }, [])
 
     const logout = () => {
@@ -55,7 +54,7 @@ function App({demo = false}: AppPropsType) {
                     </Toolbar>
                 </AppBar>
                 {status === 'loading' && <LinearProgress/>}
-                <Container>
+                <Container maxWidth={false}>
                     <Routes>
                         <Route path={"/login"} element={<Login/>}/>
                         <Route path={"/"} element={<TodolistsList demo={demo}/>}/>

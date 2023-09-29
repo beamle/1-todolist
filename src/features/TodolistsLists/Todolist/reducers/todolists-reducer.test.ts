@@ -1,11 +1,11 @@
 import {v1} from "uuid";
 import {
-    changeTodolistFilterAC,
-    setTodolistEntityStatusAC,
+    changeTodolistFilter,
+    setTodolistEntityStatus,
     TodolistDomainType,
     todolistsReducer
 } from "./todolists-reducer";
-import {changeTodolistTitleTC, createTodolistTC, deleteTodolistTC, fetchTodolistTC} from "../todolist-actions";
+import {changeTodolistTitleTC, createTodolistTC, deleteTodolistTC, fetchTodolistTC} from "./todolists-reducer";
 
 
 let todolistId1 = v1()
@@ -59,7 +59,7 @@ test("todolist's filter should be changed", () => {
 
 
     // const action: ChangeTodolistFilterActionType = {type: 'CHANGE-FILTER', id: todolistId1, filter: "active"}
-    const action = changeTodolistFilterAC({todoListId: todolistId1, filter: newFilter})
+    const action = changeTodolistFilter({todoListId: todolistId1, filter: newFilter})
 
     const endState: TodolistDomainType[] = todolistsReducer(startState, action)
 
@@ -77,7 +77,7 @@ test('todolists should be set to the state', () => {
 })
 
 test('todolist entity status should be changed', () => {
-    const action = setTodolistEntityStatusAC({todolistId: todolistId2, status: 'loading'})
+    const action = setTodolistEntityStatus({todolistId: todolistId2, status: 'loading'})
     const endState = todolistsReducer(startState, action)
     console.log(endState)
 

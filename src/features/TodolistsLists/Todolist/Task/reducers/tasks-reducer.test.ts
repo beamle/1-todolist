@@ -1,10 +1,11 @@
 import {v1} from "uuid";
 import {
-    tasksReducer, TasksType
+    addTask,
+    deleteTask, fetchTasks,
+    tasksReducer, TasksType, updateTask
 } from "./tasks-reducer";
 import {TaskPriorities, TaskStatuses } from "../tasksAPI";
-import {addTaskTC, deleteTaskTC, fetchTasksTC, updateTaskTC} from "../task-actions";
-import {createTodolistTC, fetchTodolistTC} from "../../todolist-actions";
+import {createTodolistTC, fetchTodolistTC} from "../../reducers/todolists-reducer";
 
 let todoListId1 = v1();
 let todoListId2 = v1();
@@ -36,7 +37,7 @@ const startState: TasksType = {
 };
 
 test("task should be deleted from tasks array", () => {
-    const action = deleteTaskTC.fulfilled({taskId: startState[todoListId1][0].id, todolistId: todoListId1}, "requestId", {taskId: startState[todoListId1][0].id, todolistId: todoListId1})
+    const action = deleteTask.fulfilled({taskId: startState[todoListId1][0].id, todolistId: todoListId1}, "requestId", {taskId: startState[todoListId1][0].id, todolistId: todoListId1})
 
     const endState = tasksReducer(startState, action)
 
@@ -49,7 +50,7 @@ test("task should be deleted from tasks array", () => {
 
 test("tasks isDone status should be changed", () => {
     const args = {id: startState[todoListId1][1].id, todolistId: todoListId1, model: {status: TaskStatuses.Completed}}
-    const action = updateTaskTC.fulfilled(
+    const action = updateTask.fulfilled(
         args, "requestId", {taskId: startState[todoListId1][1].id, todolistId: todoListId1, domainModel: {status: TaskStatuses.Completed}})
     const endState = tasksReducer(startState, action)
 
@@ -64,7 +65,7 @@ test("add new task", () => {
         id: v1(), title: title, status: TaskStatuses.New, description: '', todoListId: todoListId2,
             startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low
     }
-    const action = addTaskTC.fulfilled({ task}, "requestId", {todolistId: todoListId2, title} )
+    const action = addTask.fulfilled({ task}, "requestId", {todolistId: todoListId2, title} )
     // const action: AddTaskType = {type: "ADD-TASK", todoListId: todoListId2, title}
     const endState = tasksReducer(startState, action)
 
@@ -77,7 +78,7 @@ test("add new task", () => {
 
 test("change task title", () => {
     const title = "changedTitle"
-    const action = updateTaskTC.fulfilled({
+    const action = updateTask.fulfilled({
         id: startState[todoListId1][0].id, todolistId: todoListId1, model: {title}}, "requestId", {taskId: startState[todoListId1][0].id, todolistId: todoListId1, domainModel: {title} }
     )
     const endState = tasksReducer(startState, action)
@@ -161,7 +162,7 @@ test('empty array  should be added when new todolist is created', () => {
 })
 
 test('tasks should be added to todolist', () => {
-    const action = fetchTasksTC.fulfilled({tasks: startState[todoListId1], todolistId: todoListId1}, "requestId", todoListId1)
+    const action = fetchTasks.fulfilled({tasks: startState[todoListId1], todolistId: todoListId1}, "requestId", todoListId1)
         //fulfilled is action creator at this moment
     const endState = tasksReducer({
         todoListId1: [],

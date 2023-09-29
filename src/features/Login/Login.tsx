@@ -10,23 +10,20 @@ import React from 'react';
 import {FormikHelpers, useFormik} from "formik";
 import {loginTC} from "./login-reducer";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "../../app/store";
+import {useAppDispatch} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {appSelectors} from "../../app";
+import {authActions} from "./index";
 
 type FormValuesType = {
     email: string,
     password: string,
     rememberMe: boolean
 }
-type errorType = {
-    error: {message: string}
-}
 
 export const Login = () => {
     const dispatch = useAppDispatch();
     const isLoggedIn = useSelector(appSelectors.isLoggedInSelector)
-
 
     const formik = useFormik({
         initialValues: {
@@ -58,9 +55,7 @@ export const Login = () => {
             // Even thought it's UI component we dispatch BLL's loginTC and analyzing reponse here instead of BLL.
             // Since BLL has it's own logic related to loginization, but here we want to use this data for showing errors
             // Instead of creating additional loginErrors state property we analyze the answer from server.
-            const action = await dispatch(loginTC(values))
-            console.log(action)
-            debugger
+            const action = await dispatch(authActions.loginTC(values))
             if (loginTC.rejected.match(action)) {
                 debugger
                 if (action.payload?.error.length){

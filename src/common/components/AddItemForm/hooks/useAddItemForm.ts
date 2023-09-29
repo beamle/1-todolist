@@ -19,10 +19,13 @@ export const useAddItemForm = (addItem: AddItemFunction): AddItemFormReturnType 
 
     console.log("add itemForm")
 
-    function addTaskBtnHandle() {
+    async function addTaskBtnHandle() {
         if (inputText.trim()) {
-            addItem(inputText.trim())
-            setInputText('')
+            try {
+                await addItem(inputText.trim())
+                setInputText('')
+            } catch (error) {
+            }
         } else {
             setError('Title is required')
         }

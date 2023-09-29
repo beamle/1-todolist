@@ -35,9 +35,6 @@ const slice = createSlice({
     }
 })
 
-export const appReducer = slice.reducer
-export const {setAppStatusAC, setAppErrorAC, setIsInitializedAC} = slice.actions // actions = actionCreators
-
 // TC
 
 export const authMeTC = createAsyncThunk("login/authMeTC",  async (_, thunkAPI) => {
@@ -62,7 +59,13 @@ export const authMeTC = createAsyncThunk("login/authMeTC",  async (_, thunkAPI) 
     // }
 })
 
+export const asyncActions = {
+    authMeTC
+}
 
+
+export const appReducer = slice.reducer
+export const {setAppStatusAC, setAppErrorAC, setIsInitializedAC} = slice.actions // actions = actionCreators
 // types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
