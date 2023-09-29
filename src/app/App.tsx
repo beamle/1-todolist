@@ -13,11 +13,13 @@ import LinearProgress from "@mui/material/LinearProgress";
 import {useAppDispatch} from "./store";
 import {Route, Routes} from "react-router-dom";
 import {Login} from '../features/Login/Login';
-import {authMeTC, logOutTC} from "../features/Login/login-reducer";
+import {logOutTC} from "../features/Login/login-reducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import {isInitializedSelector, isLoggedInSelector, statusSelector} from "./app.selectors";
 import {useSelector} from "react-redux";
+import {authMeTC} from "./app-reducer";
+import {appSelectors} from "./index";
+import {isInitializedSelector, isLoggedInSelector, statusSelector} from "./app.selectors";
 
 type AppPropsType = {
     demo?: boolean // used for Storybook fetching logic segregation

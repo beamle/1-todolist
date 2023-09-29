@@ -1,21 +1,15 @@
-import {AppRootStateType, useAppDispatch} from "../../app/store";
+import {useActions, useAppDispatch} from "../../app/store";
 import {useSelector} from "react-redux";
-import {
-    changeTodolistFilterAC,
-    changeTodolistTitleTH,
-    createTodolistTC,
-    deleteTodolistTC,
-    fetchTodolistTC,
-    FilterValuesType,
-    TodolistDomainType
-} from "./Todolist/reducers/todolists-reducer";
+import {changeTodolistFilterAC, FilterValuesType} from "./Todolist/reducers/todolists-reducer";
 import React, {useCallback, useEffect} from "react";
 import {Box, Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../common/components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
-import {TasksType} from "./Todolist/Task/reducers/tasks-reducer";
-import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
 import {Navigate} from "react-router-dom";
+import {todoListsSelector} from "./Todolist/todolist-selectors";
+import {appSelectors} from "../../app";
+import {changeTodolistTitleTC, createTodolistTC, deleteTodolistTC, fetchTodolistTC} from "./Todolist/todolist-actions";
+import {todolistActions} from "./index";
 
 type TodolistsList = {
     demo?: boolean
@@ -23,34 +17,33 @@ type TodolistsList = {
 
 export const TodolistsList = ({demo = false}: TodolistsList) => {
     const dispatch = useAppDispatch()
-    const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
+    const todoLists = useSelector(todoListsSelector)
+    const isLoggedIn = useSelector(appSelectors.isLoggedInSelector)
+    const { fetchTodolistTC, createTodolistTC, deleteTodolistTC, changeTodolistTitleTC } = useActions(todolistActions);
 
-    // const tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
     // const status = useSelector<AppRootStateType, RequestStatusType>(state => state.todolists.)
     // 1 parameter - kakoi globalnyj state, 2 - kakoi state sobiraemsja dostavatj
 
     useEffect(() => {
         if (demo || !isLoggedIn) return
-        dispatch(fetchTodolistTC())
+        fetchTodolistTC()
     }, [])
 
     // TODOLISTS MANIPULATION
     const deleteTodoList = useCallback((id: string) => {
-        dispatch(deleteTodolistTC(id))
+        deleteTodolistTC(id)
     }, [])
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(createTodolistTC(title))
+        createTodolistTC(title)
     }, [])
 
     const changeTodolistTitleHandler = useCallback((title: string, todolistId: string) => {
-        dispatch(changeTodolistTitleTH(todolistId, title))
+        changeTodolistTitleTC({todolistId, title})
     }, [])
 
     const allFiltersHandler = useCallback((todoListId: string, filter: FilterValuesType) => {
-        dispatch(changeTodolistFilterAC({todoListId, filter}))
+        changeTodolistFilterAC({todoListId, filter})
     }, [])
 
     if (!isLoggedIn) {

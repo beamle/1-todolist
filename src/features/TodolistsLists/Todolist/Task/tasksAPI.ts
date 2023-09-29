@@ -1,4 +1,5 @@
 import { instance } from "../../../../api"
+import {FieldsErrors} from "../../../../common/types/common-types";
 
 
 export const tasksApi = {
@@ -50,6 +51,7 @@ type GetTasksResponseType = {
 export type TaskResponseType<T = {}> = {
     data: T
     messages: string[]
+    fieldsErrors?: FieldsErrors
     resultCode?: number
 }
 type DeleteTaskResponseType = {

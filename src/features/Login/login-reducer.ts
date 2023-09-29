@@ -1,4 +1,3 @@
-import {Dispatch} from "redux";
 import {authAPI, LoginParams} from "./authAPI";
 import {setAppStatusAC, setIsInitializedAC} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../common/utils/error-utitls";
@@ -7,7 +6,6 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../common/actions/common-actions";
 import {RESULT_CODE} from "../../common/enums";
 import {FieldsErrors} from "../../common/types/common-types";
-import {AsyncThunkConfigType} from "../../app/store";
 
 
 const slice = createSlice({
@@ -25,6 +23,9 @@ const slice = createSlice({
         builder
             .addCase(loginTC.fulfilled, (stateDraft, action) => {
                 stateDraft.isLoggedIn = action.payload.isLoggedIn
+            })
+            .addCase(logOutTC.fulfilled, (stateDraft, action) => {
+                stateDraft.isLoggedIn = false; // another way to solve
             })
     }
 })
@@ -58,8 +59,7 @@ export const loginTC = createAsyncThunkType<{ isLoggedIn: boolean }, LoginParams
     }
 })
 
-export const logOutTC = createAsyncThunkType<{isLoggedIn: boolean}>("login/logOutTC", async (_, thunkAPI) => {
-    const {dispatch, rejectWithValue} = thunkAPI;
+export const logOutTC = createAsyncThunk("login/logOutTC", async (_, {dispatch, rejectWithValue}) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     const res = await authAPI.logout();
     try {
@@ -67,39 +67,16 @@ export const logOutTC = createAsyncThunkType<{isLoggedIn: boolean}>("login/logOu
             dispatch(clearTasksAndTodolists())
             dispatch(setAppStatusAC({status: 'succeeded'}))
             dispatch(setIsInitializedAC({isInitialized: true}))
-            return {isLoggedIn: false}
+            return; // another way to solve
         } else {
             handleServerAppError(res.data, dispatch)
-            return rejectWithValue({error: res.data.messages, fieldsErrors: res.data.fieldsErrors})
+            return rejectWithValue({})
         }
     } catch (err: any) {
         const error: AxiosError = err
         handleServerNetworkError(error, dispatch)
-        return rejectWithValue({error: [error.message], fieldsErrors: undefined})
+        return rejectWithValue({})
     }
-})
-
-export const authMeTC = createAsyncThunkType<{isLoggedIn: boolean}>("login/authMeTC", async (_, thunkAPI) => {
-    const {dispatch, rejectWithValue } = thunkAPI;
-    dispatch(setAppStatusAC({status: 'loading'}))
-    const res = await authAPI.authMe();
-        try{
-            if (res.data.resultCode === RESULT_CODE.Success) {
-                dispatch(setAppStatusAC({status: 'succeeded'}))
-                dispatch(setIsInitializedAC({isInitialized: true}))
-                return {isLoggedIn: true}
-            } else {
-                handleServerAppError(res.data, dispatch)
-                dispatch(setIsInitializedAC({isInitialized: true}))
-                return rejectWithValue({error: res.data.messages, fieldsErrors: res.data.fieldsErrors})
-            }
-        }
-        catch(err: any) {
-            const error: AxiosError = err;
-            handleServerNetworkError(error as { message: string }, dispatch)
-            dispatch(setIsInitializedAC({isInitialized: true}))
-            return rejectWithValue({error: [error.message], fieldsErrors: undefined})
-        }
 })
 
 //types

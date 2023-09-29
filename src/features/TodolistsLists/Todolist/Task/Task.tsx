@@ -3,9 +3,10 @@ import {IconButton} from "@material-ui/core";
 import Delete from "@material-ui/icons/Delete";
 import {MyCheckBox} from "../../../../common/components/MyCheckBox/MyCheckBox";
 import {EditableSpan} from "../../../../common/components/EditableSpan/EditableSpan";
-import {deleteTaskTC, updateTaskTH} from "./reducers/tasks-reducer";
-import {useAppDispatch} from "../../../../app/store";
+import {useActions, useAppDispatch} from "../../../../app/store";
 import {TaskStatuses, TaskType} from "./tasksAPI";
+import {deleteTaskTC, updateTaskTC} from "./task-actions";
+import {tasksActions} from "./index";
 
 type TaskPropsType = {
     task: TaskType
@@ -14,19 +15,20 @@ type TaskPropsType = {
 
 const Task = ({task, todolistId}: TaskPropsType) => {
     const {id, status, title} = task
-    const dispatch = useAppDispatch()
+    const { updateTaskTC, deleteTaskTC } = useActions(tasksActions)
+
 
     const changeIsDoneHandler = useCallback((checked: boolean) => {
         const status =  checked ? TaskStatuses.Completed : TaskStatuses.New
-        dispatch(updateTaskTH(todolistId, id, {status}))
+        updateTaskTC({todolistId, taskId: id, domainModel: {status} })
     },[id, todolistId])
 
     const deleteTaskHandler = useCallback((taskId: string) => {
-        dispatch(deleteTaskTC(todolistId, taskId))
+        deleteTaskTC({todolistId, taskId})
     },[])
 
     const changeTaskTitleHandler = useCallback((title: string) => {
-        dispatch(updateTaskTH(todolistId, id, {title}))
+        updateTaskTC({todolistId, taskId: id, domainModel: {title} })
     },[])
     return (
         <div>
