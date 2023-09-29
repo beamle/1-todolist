@@ -71,7 +71,7 @@ export const AppWithReducers = React.memo(() => {
     // }
     //
     // const allFiltersHandler = (todoListId: string, filter: FilterValuesType) => {
-    //     dispatchToTdReducer(changeTodolistFilterAC(todoListId, filter))
+    //     dispatchToTdReducer(changeTodolistFilter(todoListId, filter))
     // }
 
     return (

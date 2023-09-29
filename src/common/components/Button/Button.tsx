@@ -1,10 +1,12 @@
 import React from 'react';
 import Button from "@material-ui/core/Button";
 
+export type ClassNameType = "text" | "outlined" | "contained" | undefined
+
 type PropsType = {
     name: string,
     callBack: () => void
-    className: "text" | "outlined" | "contained" | undefined
+    className: ClassNameType
 }
 
 export const MyButton = React.memo(({name, callBack, className}: PropsType) => {

@@ -1,79 +1,82 @@
-import {useActions, useAppDispatch} from "../../app/store";
+import {useActions} from "../../app/store";
 import {useSelector} from "react-redux";
-import {changeTodolistFilterAC, FilterValuesType} from "./Todolist/reducers/todolists-reducer";
-import React, {useCallback, useEffect} from "react";
-import {Box, Grid, Paper} from "@mui/material";
+import React, {useEffect} from "react";
+import {Box, Grid, Paper, CssBaseline} from "@mui/material";
 import {AddItemForm} from "../../common/components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
 import {todoListsSelector} from "./Todolist/todolist-selectors";
 import {appSelectors} from "../../app";
-import {changeTodolistTitleTC, createTodolistTC, deleteTodolistTC, fetchTodolistTC} from "./Todolist/todolist-actions";
-import {todolistActions} from "./index";
+import {todolistsActions} from "./Todolist";
+import Container from "@mui/material/Container";
+
+// Custom scrollbar CSS
+const customScrollbarStyles = {
+    '::-webkit-scrollbar': {
+        width: '8px',
+    },
+    '::-webkit-scrollbar-track': {
+        background: 'transparent',
+    },
+    '::-webkit-scrollbar-thumb': {
+        background: '#6b778c',
+        borderRadius: '4px',
+    },
+    '::-webkit-scrollbar-thumb:hover': {
+        background: '#485162',
+    },
+    '::-webkit-scrollbar-thumb:active': {
+        background: '#38404c',
+    },
+};
 
 type TodolistsList = {
-    demo?: boolean
-}
+    demo?: boolean;
+};
 
 export const TodolistsList = ({demo = false}: TodolistsList) => {
-    const dispatch = useAppDispatch()
-    const todoLists = useSelector(todoListsSelector)
-    const isLoggedIn = useSelector(appSelectors.isLoggedInSelector)
-    const { fetchTodolistTC, createTodolistTC, deleteTodolistTC, changeTodolistTitleTC } = useActions(todolistActions);
-
-    // const status = useSelector<AppRootStateType, RequestStatusType>(state => state.todolists.)
-    // 1 parameter - kakoi globalnyj state, 2 - kakoi state sobiraemsja dostavatj
+    const todoLists = useSelector(todoListsSelector);
+    const isLoggedIn = useSelector(appSelectors.isLoggedInSelector);
+    const {fetchTodolistTC, createTodolistTC, changeTodolistTitleTC} =
+        useActions(todolistsActions);
 
     useEffect(() => {
-        if (demo || !isLoggedIn) return
-        fetchTodolistTC()
-    }, [])
-
-    // TODOLISTS MANIPULATION
-    const deleteTodoList = useCallback((id: string) => {
-        deleteTodolistTC(id)
-    }, [])
-
-    const addTodolist = useCallback((title: string) => {
-        createTodolistTC(title)
-    }, [])
-
-    const changeTodolistTitleHandler = useCallback((title: string, todolistId: string) => {
-        changeTodolistTitleTC({todolistId, title})
-    }, [])
-
-    const allFiltersHandler = useCallback((todoListId: string, filter: FilterValuesType) => {
-        changeTodolistFilterAC({todoListId, filter})
-    }, [])
+        if (demo || !isLoggedIn) return;
+        fetchTodolistTC();
+    }, []);
 
     if (!isLoggedIn) {
-        return <Navigate to="/login"/>
+        return <Navigate to="/login"/>;
     }
 
-    return <>
-        <Grid container spacing={1}>
-            <Grid>
-                <AddItemForm addItem={addTodolist} />
-            </Grid>
-        </Grid>
-        <Box sx={{flexGrow: 1}}>
+    return (
+        <>
             <Grid container spacing={1}>
-                {todoLists.map(tl => {
-
-                    return <Grid key={tl.id}>
-                        <Paper>
-                            <Todolist key={tl.id}
-                                      todolist={tl}
-                                      allFiltersHandler={allFiltersHandler}
-                                      filter={tl.filter}
-                                      deleteTodoList={deleteTodoList}
-                                      changeTodolistTitleHandler={changeTodolistTitleHandler}
-                                      demo={demo}
-                            />
-                        </Paper>
-                    </Grid>
-                })}
-
+                <Grid>
+                    <AddItemForm addItem={createTodolistTC}/>
+                </Grid>
             </Grid>
-        </Box></>
-}
+            <Grid container spacing={1}
+                  sx={{
+                      flexWrap: 'nowrap', overflowX: 'scroll', position: 'relative', bottom: 0, left: 0, right: 0,
+                      ...customScrollbarStyles,
+                  }}>
+
+                {todoLists.map((tl) => {
+                    return (
+                        <Grid item key={tl.id}>
+                            <Paper sx={{width: '300px'}}>
+                                <Todolist
+                                    key={tl.id}
+                                    todolist={tl}
+                                    filter={tl.filter}
+                                    demo={demo}
+                                />
+                            </Paper>
+                        </Grid>
+                    );
+                })}
+            </Grid>
+        </>
+    );
+};

@@ -8,7 +8,7 @@ import {RESULT_CODE} from "../../common/enums";
 import {FieldsErrors} from "../../common/types/common-types";
 
 
-const slice = createSlice({
+export const slice = createSlice({
     name: "login",
     initialState: {
         isLoggedIn: false,
@@ -79,6 +79,7 @@ export const logOutTC = createAsyncThunk("login/logOutTC", async (_, {dispatch, 
     }
 })
 
-//types
-
-// type LoginThunkDispatchType = Dispatch<SetAppStatusActionType | SetAppErrorActionType | SetAppIsInitialized>
+export const asyncActions = {
+    loginTC,
+    logOutTC
+}
