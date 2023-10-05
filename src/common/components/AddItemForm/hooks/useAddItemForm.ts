@@ -17,8 +17,6 @@ export const useAddItemForm = (addItem: AddItemFunction): AddItemFormReturnType 
 
     const dispatch = useDispatch();
 
-    console.log("add itemForm")
-
     async function addTaskBtnHandle() {
         if (inputText.trim()) {
             try {

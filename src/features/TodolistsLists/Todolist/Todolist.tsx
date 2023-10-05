@@ -19,6 +19,7 @@ type PropsType = {
     demo?: boolean
 }
 
+
 export const Todolist = React.memo((props: PropsType) => {
     const {todolist, filter, demo = false} = props
     const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolist.id])

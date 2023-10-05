@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {authAPI} from "../features/Login/authAPI";
 import {RESULT_CODE} from "../common/enums";
+import {setIsLoggedIn} from "../features/Login/login-reducer";
 
 
 const initialState: InitialStateType = {
@@ -44,8 +45,11 @@ export const authMeTC = createAsyncThunk("login/authMeTC",  async (_, thunkAPI) 
     // try{
         if (res.data.resultCode === RESULT_CODE.Success) {
             dispatch(setAppStatusAC({status: 'succeeded'}))
+            dispatch(setIsInitializedAC({isInitialized: true}))
+            dispatch(setIsLoggedIn({isLoggedIn: true}))
             return; // return without anything still means authMeTC.fulfilled and not .rejected
         } else {
+            // dispatch(setIsInitializedAC({isInitialized: true}))
     //         handleServerAppError(res.data, dispatch)
     //         dispatch(setIsInitializedAC({isInitialized: true}))
     //         return;
