@@ -2,6 +2,8 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {authAPI} from "../features/Login/authAPI";
 import {RESULT_CODE} from "../common/enums";
 import {setIsLoggedIn} from "../features/Login/login-reducer";
+import { handleServerAppError, handleServerNetworkError } from "../common/utils/error-utitls";
+import { AxiosError } from "axios";
 
 
 const initialState: InitialStateType = {
@@ -42,25 +44,25 @@ export const authMeTC = createAsyncThunk("login/authMeTC",  async (_, thunkAPI) 
     const {dispatch, rejectWithValue } = thunkAPI;
     dispatch(setAppStatusAC({status: 'loading'}))
     const res = await authAPI.authMe();
-    // try{
+    try{
         if (res.data.resultCode === RESULT_CODE.Success) {
             dispatch(setAppStatusAC({status: 'succeeded'}))
             dispatch(setIsInitializedAC({isInitialized: true}))
             dispatch(setIsLoggedIn({isLoggedIn: true}))
             return; // return without anything still means authMeTC.fulfilled and not .rejected
         } else {
-            // dispatch(setIsInitializedAC({isInitialized: true}))
-    //         handleServerAppError(res.data, dispatch)
-    //         dispatch(setIsInitializedAC({isInitialized: true}))
-    //         return;
+            dispatch(setIsInitializedAC({isInitialized: true}))
+            handleServerAppError(res.data, dispatch)
+            dispatch(setIsInitializedAC({isInitialized: true}))
+            return;
         }
-    // }
-    // catch(err: any) {
-    //     const error: AxiosError = err;
-    //     handleServerNetworkError(error as { message: string }, dispatch)
-    //     dispatch(setIsInitializedAC({isInitialized: true}))
-    //     return rejectWithValue({error: [error.message], fieldsErrors: undefined})
-    // }
+    }
+    catch(err: any) {
+        const error: AxiosError = err;
+        handleServerNetworkError(error, dispatch)
+        dispatch(setIsInitializedAC({isInitialized: true}))
+        return rejectWithValue({error: [error.message], fieldsErrors: undefined})
+    }
 })
 
 export const asyncActions = {

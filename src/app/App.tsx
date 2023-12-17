@@ -42,14 +42,16 @@ function App({demo = false}: AppPropsType) {
         return  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh'}}> <CircularProgress size="5rem"/> </Box>
     }
 
+    console.log(status)
+
     return (
             <div className="App">
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton edge="start" color="inherit" aria-label="menu">
-                            <Menu />
-                        </IconButton>
-                        <Typography variant="h6" sx={{ flexGrow: 1 }}>News</Typography>
+                        {/*<IconButton edge="start" color="inherit" aria-label="menu">*/}
+                        {/*    <Menu />*/}
+                        {/*</IconButton>*/}
+                        {/*<Typography variant="h6" sx={{ flexGrow: 1 }}>News</Typography>*/}
                         <Button onClick={logout} color="inherit">{isLoggedIn && "Logout"}</Button>
                     </Toolbar>
                 </AppBar>
