@@ -57,7 +57,6 @@ export const Login = () => {
             // Instead of creating additional loginErrors state property we analyze the answer from server.
             const action = await dispatch(authActions.loginTC(values))
             if (loginTC.rejected.match(action)) {
-                debugger
                 if (action.payload?.error.length){
                     debugger
                     const error = action.payload?.error[0]

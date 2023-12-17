@@ -51,6 +51,7 @@ export const authMeTC = createAsyncThunk("login/authMeTC",  async (_, thunkAPI) 
             dispatch(setIsLoggedIn({isLoggedIn: true}))
             return; // return without anything still means authMeTC.fulfilled and not .rejected
         } else {
+            console.log("here")
             dispatch(setIsInitializedAC({isInitialized: true}))
             handleServerAppError(res.data, dispatch)
             dispatch(setIsInitializedAC({isInitialized: true}))
